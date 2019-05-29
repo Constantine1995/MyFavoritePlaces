@@ -11,6 +11,10 @@
 		0462C878229E9E6100828498 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0462C877229E9E6100828498 /* Assets.xcassets */; };
 		0462C87B229E9E6100828498 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0462C879229E9E6100828498 /* LaunchScreen.storyboard */; };
 		0462C883229EA12900828498 /* MainTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462C882229EA12900828498 /* MainTableViewController.swift */; };
+		0462C887229EB71000828498 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462C886229EB71000828498 /* UIView+Extension.swift */; };
+		0462C88A229EB92C00828498 /* FavoritePlace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462C889229EB92C00828498 /* FavoritePlace.swift */; };
+		0462C88D229EBB2E00828498 /* FavoritePlaceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462C88C229EBB2D00828498 /* FavoritePlaceTableViewCell.swift */; };
+		0462C88F229EBB8000828498 /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462C88E229EBB8000828498 /* UIImageView+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,6 +24,10 @@
 		0462C87A229E9E6100828498 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0462C87C229E9E6100828498 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0462C882229EA12900828498 /* MainTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableViewController.swift; sourceTree = "<group>"; };
+		0462C886229EB71000828498 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
+		0462C889229EB92C00828498 /* FavoritePlace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritePlace.swift; sourceTree = "<group>"; };
+		0462C88C229EBB2D00828498 /* FavoritePlaceTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritePlaceTableViewCell.swift; sourceTree = "<group>"; };
+		0462C88E229EBB8000828498 /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,6 +60,9 @@
 		0462C86F229E9E6000828498 /* MyFavoritePlaces */ = {
 			isa = PBXGroup;
 			children = (
+				0462C88B229EBB0700828498 /* View */,
+				0462C888229EB7E300828498 /* Model */,
+				0462C885229EB6C000828498 /* Extensions */,
 				0462C882229EA12900828498 /* MainTableViewController.swift */,
 				0462C884229EA1AD00828498 /* SupportingFiles */,
 				0462C879229E9E6100828498 /* LaunchScreen.storyboard */,
@@ -67,6 +78,31 @@
 				0462C87C229E9E6100828498 /* Info.plist */,
 			);
 			path = SupportingFiles;
+			sourceTree = "<group>";
+		};
+		0462C885229EB6C000828498 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				0462C886229EB71000828498 /* UIView+Extension.swift */,
+				0462C88E229EBB8000828498 /* UIImageView+Extension.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		0462C888229EB7E300828498 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				0462C889229EB92C00828498 /* FavoritePlace.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		0462C88B229EBB0700828498 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				0462C88C229EBB2D00828498 /* FavoritePlaceTableViewCell.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -139,8 +175,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0462C88F229EBB8000828498 /* UIImageView+Extension.swift in Sources */,
+				0462C887229EB71000828498 /* UIView+Extension.swift in Sources */,
 				0462C883229EA12900828498 /* MainTableViewController.swift in Sources */,
 				0462C871229E9E6000828498 /* AppDelegate.swift in Sources */,
+				0462C88D229EBB2E00828498 /* FavoritePlaceTableViewCell.swift in Sources */,
+				0462C88A229EB92C00828498 /* FavoritePlace.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
