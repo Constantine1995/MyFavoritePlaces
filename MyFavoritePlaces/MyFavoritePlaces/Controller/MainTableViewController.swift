@@ -14,14 +14,35 @@ class MainTableViewController: UITableViewController {
     
     var favoritePlaceData: [FavoritePlace] = FavoritePlace.fetchPlaces()
     
+    let titleHeader: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 20, weight: .medium)
+        label.text = "Favorite Places"
+        label.textColor = .black
+        label.textAlignment = .center
+        return label
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.register(FavoritePlaceTableViewCell.self, forCellReuseIdentifier: favoritePlaceCellId)
         tableView.separatorStyle = .none
+        
+        setupNavigation()
+    }
+    
+    func setupNavigation() {
+        navigationItem.titleView = titleHeader
+        let rightAddButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(goToNewPlace))
+        navigationItem.rightBarButtonItem = rightAddButton
+    }
+    
+    @objc func goToNewPlace() {
+        let newPlaceTableViewController = UINavigationController(rootViewController: NewPlaceTableViewController())
+        navigationController?.present(newPlaceTableViewController, animated: true)
     }
     
     // MARK: - Table view data source
-    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return favoritePlaceData.count

@@ -25,7 +25,7 @@ class FavoritePlaceTableViewCell: UITableViewCell {
         image.clipsToBounds = true
         return image
     }()
-
+    
     let nameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont(name: "Helvetica", size: 18)
@@ -102,12 +102,9 @@ class FavoritePlaceTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        
-        // Configure the view for the selected state
     }
 }
