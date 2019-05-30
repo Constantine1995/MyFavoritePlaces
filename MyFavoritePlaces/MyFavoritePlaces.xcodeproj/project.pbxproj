@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		045028BC229FB11500B08F3C /* NewPlaceTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045028BB229FB11500B08F3C /* NewPlaceTableViewController.swift */; };
 		045028D7229FFFE000B08F3C /* NewPlaceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045028D6229FFFE000B08F3C /* NewPlaceTableViewCell.swift */; };
+		045028DA22A018D600B08F3C /* NewPlaceViewController+textFieldShouldReturn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045028D922A018D600B08F3C /* NewPlaceViewController+textFieldShouldReturn.swift */; };
 		0462C871229E9E6000828498 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462C870229E9E6000828498 /* AppDelegate.swift */; };
 		0462C878229E9E6100828498 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0462C877229E9E6100828498 /* Assets.xcassets */; };
 		0462C87B229E9E6100828498 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0462C879229E9E6100828498 /* LaunchScreen.storyboard */; };
@@ -22,6 +23,7 @@
 /* Begin PBXFileReference section */
 		045028BB229FB11500B08F3C /* NewPlaceTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPlaceTableViewController.swift; sourceTree = "<group>"; };
 		045028D6229FFFE000B08F3C /* NewPlaceTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPlaceTableViewCell.swift; sourceTree = "<group>"; };
+		045028D922A018D600B08F3C /* NewPlaceViewController+textFieldShouldReturn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NewPlaceViewController+textFieldShouldReturn.swift"; sourceTree = "<group>"; };
 		0462C86D229E9E6000828498 /* MyFavoritePlaces.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyFavoritePlaces.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0462C870229E9E6000828498 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0462C877229E9E6100828498 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -98,6 +100,7 @@
 			children = (
 				0462C886229EB71000828498 /* UIView+Extension.swift */,
 				0462C88E229EBB8000828498 /* UIImageView+Extension.swift */,
+				045028D922A018D600B08F3C /* NewPlaceViewController+textFieldShouldReturn.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -194,6 +197,7 @@
 				0462C883229EA12900828498 /* MainTableViewController.swift in Sources */,
 				0462C871229E9E6000828498 /* AppDelegate.swift in Sources */,
 				0462C88D229EBB2E00828498 /* FavoritePlaceTableViewCell.swift in Sources */,
+				045028DA22A018D600B08F3C /* NewPlaceViewController+textFieldShouldReturn.swift in Sources */,
 				045028D7229FFFE000B08F3C /* NewPlaceTableViewCell.swift in Sources */,
 				0462C88A229EB92C00828498 /* FavoritePlace.swift in Sources */,
 				045028BC229FB11500B08F3C /* NewPlaceTableViewController.swift in Sources */,

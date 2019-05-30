@@ -13,8 +13,9 @@ class NewPlaceTableViewController: UITableViewController {
     let newPlaceCellID = "newPlaceCellID"
     
     var placeHeaderImageView: UIImageView = {
-        let image = UIImageView()
+        let image = UIImageView(image: #imageLiteral(resourceName: "celentano"))
         image.contentMode = .scaleAspectFill
+        image.backgroundColor = .gray
         return image
     }()
     
@@ -34,14 +35,15 @@ class NewPlaceTableViewController: UITableViewController {
     }
     
     func setupTableView() {
-        tableView.rowHeight = 75
         tableView.register(NewPlaceTableViewCell.self, forCellReuseIdentifier: newPlaceCellID)
         
-        placeHeaderImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.width * 0.85))
-        
+        tableView.tableFooterView = UIView()
+        tableView.rowHeight = 75
+            placeHeaderImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.width * 0.85))
+//        placeHeaderImageView.image = #imageLiteral(resourceName: "celentano")
         tableView.tableHeaderView = placeHeaderImageView
     }
-    
+
     func setupNavigation() {
         navigationItem.titleView = titleHeader
         let cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: nil)
@@ -57,9 +59,19 @@ class NewPlaceTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: newPlaceCellID, for: indexPath) as! NewPlaceTableViewCell
-        
-        cell.placeTitleLabel.text = "\(indexPath.row)"
-        cell.placeTextField.text = "\(indexPath.row)"
+        cell.selectionStyle = .none
+        cell.separatorInset = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
+        cell.placeTitleLabel.text = "place holder \(indexPath.row)"
+        cell.placeTextField.text = "place holder \(indexPath.row)"
+        cell.placeTextField.delegate = self
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.row == 0 {
+            
+        } else {
+            view.endEditing(true)
+        }
     }
 }
