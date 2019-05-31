@@ -77,6 +77,10 @@ class NewPlaceTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 0 {
+            
+            let cameraIcon = #imageLiteral(resourceName: "camera")
+            let photoIcon = #imageLiteral(resourceName: "photo")
+            
             let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
             
             let photoFromCamera = UIAlertAction(title: "Camera", style: .default) { _ in
@@ -87,6 +91,11 @@ class NewPlaceTableViewController: UITableViewController {
                 self.chooseImagePicker(source: .photoLibrary)
             }
             
+            photoFromCamera.setValue(cameraIcon, forKey: "image")
+            photoFromCamera.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+            photoFromGallery.setValue(photoIcon, forKey: "image")
+            photoFromGallery.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+
             let cancel = UIAlertAction(title: "Cancel", style: .cancel)
             
             actionSheet.addAction(photoFromCamera)
