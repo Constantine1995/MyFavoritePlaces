@@ -39,12 +39,12 @@ class MainTableViewController: UITableViewController {
     
     @objc func goToNewPlace() {
         let newPlaceTableViewController = UINavigationController(rootViewController: NewPlaceTableViewController())
+        newPlaceTableViewController.modalTransitionStyle = .flipHorizontal
         navigationController?.present(newPlaceTableViewController, animated: true)
     }
     
     // MARK: - Table view data source
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         return favoritePlaceData.count
     }
     

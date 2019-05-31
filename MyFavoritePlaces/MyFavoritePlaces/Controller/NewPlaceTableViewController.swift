@@ -10,14 +10,10 @@ import UIKit
 
 class NewPlaceTableViewController: UITableViewController {
     
-    let newPlaceCellID = "newPlaceCellID"
-    
-    var placeHeaderImageView: UIImageView = {
-        let image = UIImageView(image: #imageLiteral(resourceName: "celentano"))
-        image.contentMode = .scaleAspectFill
-        image.backgroundColor = .gray
-        return image
-    }()
+    let newPlaceImageCellId = "newPlaceImageCellId"
+    let newPlaceInfoCellId = "newPlaceInfoCellId"
+    let placeImageNameNib = "NewPlaceImageTableViewCell"
+    let placeInfoNameNib = "NewPlaceInfoTableViewCell"
     
     let titleHeader: UILabel = {
         let label = UILabel()
@@ -35,18 +31,16 @@ class NewPlaceTableViewController: UITableViewController {
     }
     
     func setupTableView() {
-        tableView.register(NewPlaceTableViewCell.self, forCellReuseIdentifier: newPlaceCellID)
-        
+        let placeImageNib = UINib(nibName: placeImageNameNib, bundle: nil)
+        let placeInfoNib = UINib(nibName: placeInfoNameNib, bundle: nil)
+        tableView.register(placeImageNib, forCellReuseIdentifier: newPlaceImageCellId)
+        tableView.register(placeInfoNib, forCellReuseIdentifier: newPlaceInfoCellId)
         tableView.tableFooterView = UIView()
-        tableView.rowHeight = 75
-            placeHeaderImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.width * 0.85))
-//        placeHeaderImageView.image = #imageLiteral(resourceName: "celentano")
-        tableView.tableHeaderView = placeHeaderImageView
     }
 
     func setupNavigation() {
         navigationItem.titleView = titleHeader
-        let cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: nil)
+        let cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelAction))
         let saveButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: nil)
         navigationItem.leftBarButtonItem = cancelButton
         navigationItem.rightBarButtonItem = saveButton
@@ -54,17 +48,25 @@ class NewPlaceTableViewController: UITableViewController {
     
     // MARK: - Table view data source
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return 4
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: newPlaceCellID, for: indexPath) as! NewPlaceTableViewCell
-        cell.selectionStyle = .none
-        cell.separatorInset = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
-        cell.placeTitleLabel.text = "place holder \(indexPath.row)"
-        cell.placeTextField.text = "place holder \(indexPath.row)"
-        cell.placeTextField.delegate = self
-        return cell
+        
+        if (indexPath.item == 0) {
+            let cell = tableView.dequeueReusableCell(withIdentifier: newPlaceImageCellId, for: indexPath) as! NewPlaceImageTableViewCell
+            cell.placeImageView.image = #imageLiteral(resourceName: "celentano")
+            cell.selectionStyle = .none
+            cell.separatorInset = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
+            return cell
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: newPlaceInfoCellId, for: indexPath)  as! NewPlaceInfoTableViewCell
+            cell.placeTextLabel.text = "Name \(indexPath.row)"
+            cell.placeTextField.text = "place \(indexPath.row)"
+            cell.selectionStyle = .none
+            cell.separatorInset = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
+            return cell
+        }
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -73,5 +75,9 @@ class NewPlaceTableViewController: UITableViewController {
         } else {
             view.endEditing(true)
         }
+    }
+    
+    @objc func cancelAction(_ : UIButton) {
+        dismiss(animated: true, completion: nil)
     }
 }

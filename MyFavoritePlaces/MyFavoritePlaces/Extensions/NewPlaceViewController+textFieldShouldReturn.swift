@@ -8,7 +8,7 @@
 
 import UIKit
 
-extension NewPlaceTableViewController: UITextFieldDelegate {
+extension NewPlaceInfoTableViewCell: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
