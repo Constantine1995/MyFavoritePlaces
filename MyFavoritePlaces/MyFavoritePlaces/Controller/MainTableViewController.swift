@@ -55,8 +55,8 @@ class MainTableViewController: UITableViewController {
         cell.locationLabel.text = favoritePlaceData[indexPath.item].location
         cell.typeLabel.text = favoritePlaceData[indexPath.item].type
         
-        let imagePath = favoritePlaceData[indexPath.item].image
-        cell.placeImageView.image = UIImage(named: imagePath)
+        let imagePath = favoritePlaceData[indexPath.item].placeImage
+        cell.placeImageView.image = UIImage(named: imagePath!)
         
         return cell
     }

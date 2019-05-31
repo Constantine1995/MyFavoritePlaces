@@ -22,6 +22,7 @@
 		04E8011522A134C90005129F /* NewPlaceInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E8011322A134C90005129F /* NewPlaceInfoTableViewCell.swift */; };
 		04E8011622A134C90005129F /* NewPlaceInfoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04E8011422A134C90005129F /* NewPlaceInfoTableViewCell.xib */; };
 		04E8011822A14E0B0005129F /* NewPlaceTableViewController+ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E8011722A14E0B0005129F /* NewPlaceTableViewController+ImagePicker.swift */; };
+		04E8011A22A16B250005129F /* PlaceCellHeaderData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E8011922A16B250005129F /* PlaceCellHeaderData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +43,7 @@
 		04E8011322A134C90005129F /* NewPlaceInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPlaceInfoTableViewCell.swift; sourceTree = "<group>"; };
 		04E8011422A134C90005129F /* NewPlaceInfoTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewPlaceInfoTableViewCell.xib; sourceTree = "<group>"; };
 		04E8011722A14E0B0005129F /* NewPlaceTableViewController+ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NewPlaceTableViewController+ImagePicker.swift"; sourceTree = "<group>"; };
+		04E8011922A16B250005129F /* PlaceCellHeaderData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceCellHeaderData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,6 +131,7 @@
 			isa = PBXGroup;
 			children = (
 				0462C889229EB92C00828498 /* FavoritePlace.swift */,
+				04E8011922A16B250005129F /* PlaceCellHeaderData.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -221,6 +224,7 @@
 				0462C871229E9E6000828498 /* AppDelegate.swift in Sources */,
 				045028E122A1330B00B08F3C /* NewPlaceImageTableViewCell.swift in Sources */,
 				0462C88D229EBB2E00828498 /* FavoritePlaceTableViewCell.swift in Sources */,
+				04E8011A22A16B250005129F /* PlaceCellHeaderData.swift in Sources */,
 				045028DA22A018D600B08F3C /* NewPlaceViewController+textFieldShouldReturn.swift in Sources */,
 				04E8011522A134C90005129F /* NewPlaceInfoTableViewCell.swift in Sources */,
 				0462C88A229EB92C00828498 /* FavoritePlace.swift in Sources */,

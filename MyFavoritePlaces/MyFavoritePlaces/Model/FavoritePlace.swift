@@ -6,17 +6,18 @@
 //  Copyright © 2019 mac. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 struct FavoritePlace {
     
     var name: String
-    var location: String
-    var type: String
-    var image: String
+    var location: String?
+    var type: String?
+    var image: UIImage?
+    var placeImage: String?
     
     static func fetchPlaces() -> [FavoritePlace] {
-        let celentano = FavoritePlace(name: "Celentano", location: "Melitopol", type: "Restaurant", image: "celentano")
+        let celentano = FavoritePlace(name: "Celentano", location: "Melitopol", type: "Restaurant", image: nil, placeImage: "celentano")
         return [celentano]
     }
     

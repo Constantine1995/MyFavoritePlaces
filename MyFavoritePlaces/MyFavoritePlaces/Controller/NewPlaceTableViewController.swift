@@ -15,6 +15,8 @@ class NewPlaceTableViewController: UITableViewController {
     let placeImageNameNib = "NewPlaceImageTableViewCell"
     let placeInfoNameNib = "NewPlaceInfoTableViewCell"
     
+    let placeCellHeaderData: [PlaceCellHeaderData] = PlaceCellHeaderData.fetchData()
+    
     let titleHeader: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 20, weight: .medium)
@@ -24,16 +26,44 @@ class NewPlaceTableViewController: UITableViewController {
         return label
     }()
     
+    let placeNameTextField: UITextField = {
+        let textfield = UITextField()
+        textfield.font = UIFont.systemFont(ofSize: 14)
+        return textfield
+    }()
+    
+    let placeLocationTextField: UITextField = {
+        let textfield = UITextField()
+        textfield.font = UIFont.systemFont(ofSize: 14)
+        return textfield
+    }()
+    
+    let placeTypeTextField: UITextField = {
+        let textfield = UITextField()
+        textfield.font = UIFont.systemFont(ofSize: 14)
+        return textfield
+    }()
+    
     let placeImageView: UIImageView = {
         let imageView = UIImageView(image: #imageLiteral(resourceName: "Photo"))
         return imageView
+    }()
+    
+    var saveBarButtonItem: UIBarButtonItem = {
+        let barButton = UIBarButtonItem()
+        //        barButton.isEnabled = false
+        return barButton
+    }()
+    
+    var cancelBarButtonItem:  UIBarButtonItem = {
+        let barButton = UIBarButtonItem()
+        return barButton
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
         setupNavigation()
-        
     }
     
     func setupTableView() {
@@ -46,10 +76,16 @@ class NewPlaceTableViewController: UITableViewController {
     
     func setupNavigation() {
         navigationItem.titleView = titleHeader
-        let cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelAction))
-        let saveButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: nil)
-        navigationItem.leftBarButtonItem = cancelButton
-        navigationItem.rightBarButtonItem = saveButton
+        cancelBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelAction))
+        
+        saveBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: nil)
+        saveBarButtonItem.isEnabled = false
+        navigationItem.leftBarButtonItem = cancelBarButtonItem
+        navigationItem.rightBarButtonItem = saveBarButtonItem
+    }
+    
+    func setupView() {
+        placeNameTextField.addTarget(self, action: #selector(textFieldChanged), for: .editingChanged)
     }
     
     // MARK: - Table view data source
@@ -59,16 +95,18 @@ class NewPlaceTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if (indexPath.item == 0) {
+        switch indexPath.item  {
+        case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: newPlaceImageCellId, for: indexPath) as! NewPlaceImageTableViewCell
             cell.placeImageView.image = placeImageView.image
             cell.selectionStyle = .none
             cell.separatorInset = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
             return cell
-        } else {
+        default:
             let cell = tableView.dequeueReusableCell(withIdentifier: newPlaceInfoCellId, for: indexPath)  as! NewPlaceInfoTableViewCell
-            cell.placeTextLabel.text = "Name \(indexPath.row)"
-            cell.placeTextField.text = "place \(indexPath.row)"
+            let index = indexPath.item-1
+            cell.placeTextLabel.text = placeCellHeaderData[index].title
+            cell.placeTextField.placeholder = placeCellHeaderData[index].placeholder
             cell.selectionStyle = .none
             cell.separatorInset = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
             return cell
@@ -95,7 +133,7 @@ class NewPlaceTableViewController: UITableViewController {
             photoFromCamera.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
             photoFromGallery.setValue(photoIcon, forKey: "image")
             photoFromGallery.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
-
+            
             let cancel = UIAlertAction(title: "Cancel", style: .cancel)
             
             actionSheet.addAction(photoFromCamera)
@@ -116,7 +154,16 @@ class NewPlaceTableViewController: UITableViewController {
         }
     }
     
-    @objc func cancelAction(_ : UIButton) {
+    @objc private func cancelAction(_ : UIButton) {
         dismiss(animated: true, completion: nil)
+    }
+    
+    @objc private func textFieldChanged() {
+        
+        if placeNameTextField.text?.isEmpty == false {
+            saveBarButtonItem.isEnabled = true
+        } else {
+            saveBarButtonItem.isEnabled = false
+        }
     }
 }
