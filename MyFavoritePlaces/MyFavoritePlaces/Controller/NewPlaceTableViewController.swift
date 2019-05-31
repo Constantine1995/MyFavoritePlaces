@@ -24,10 +24,16 @@ class NewPlaceTableViewController: UITableViewController {
         return label
     }()
     
+    let placeImageView: UIImageView = {
+        let imageView = UIImageView(image: #imageLiteral(resourceName: "Photo"))
+        return imageView
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
         setupNavigation()
+        
     }
     
     func setupTableView() {
@@ -37,7 +43,7 @@ class NewPlaceTableViewController: UITableViewController {
         tableView.register(placeInfoNib, forCellReuseIdentifier: newPlaceInfoCellId)
         tableView.tableFooterView = UIView()
     }
-
+    
     func setupNavigation() {
         navigationItem.titleView = titleHeader
         let cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelAction))
@@ -55,7 +61,7 @@ class NewPlaceTableViewController: UITableViewController {
         
         if (indexPath.item == 0) {
             let cell = tableView.dequeueReusableCell(withIdentifier: newPlaceImageCellId, for: indexPath) as! NewPlaceImageTableViewCell
-            cell.placeImageView.image = #imageLiteral(resourceName: "celentano")
+            cell.placeImageView.image = placeImageView.image
             cell.selectionStyle = .none
             cell.separatorInset = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
             return cell
@@ -71,9 +77,33 @@ class NewPlaceTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 0 {
+            let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+            
+            let photoFromCamera = UIAlertAction(title: "Camera", style: .default) { _ in
+                self.chooseImagePicker(source: .camera)
+            }
+            
+            let photoFromGallery = UIAlertAction(title: "Photo", style: .default) { _ in
+                self.chooseImagePicker(source: .photoLibrary)
+            }
+            
+            let cancel = UIAlertAction(title: "Cancel", style: .cancel)
+            
+            actionSheet.addAction(photoFromCamera)
+            actionSheet.addAction(photoFromGallery)
+            actionSheet.addAction(cancel)
+            present(actionSheet, animated:  true)
             
         } else {
             view.endEditing(true)
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.item == 0 {
+            return 250
+        } else {
+            return 75
         }
     }
     

@@ -21,6 +21,7 @@
 		0462C88F229EBB8000828498 /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462C88E229EBB8000828498 /* UIImageView+Extension.swift */; };
 		04E8011522A134C90005129F /* NewPlaceInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E8011322A134C90005129F /* NewPlaceInfoTableViewCell.swift */; };
 		04E8011622A134C90005129F /* NewPlaceInfoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04E8011422A134C90005129F /* NewPlaceInfoTableViewCell.xib */; };
+		04E8011822A14E0B0005129F /* NewPlaceTableViewController+ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E8011722A14E0B0005129F /* NewPlaceTableViewController+ImagePicker.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +41,7 @@
 		0462C88E229EBB8000828498 /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
 		04E8011322A134C90005129F /* NewPlaceInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPlaceInfoTableViewCell.swift; sourceTree = "<group>"; };
 		04E8011422A134C90005129F /* NewPlaceInfoTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewPlaceInfoTableViewCell.xib; sourceTree = "<group>"; };
+		04E8011722A14E0B0005129F /* NewPlaceTableViewController+ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NewPlaceTableViewController+ImagePicker.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,6 +120,7 @@
 				0462C886229EB71000828498 /* UIView+Extension.swift */,
 				0462C88E229EBB8000828498 /* UIImageView+Extension.swift */,
 				045028D922A018D600B08F3C /* NewPlaceViewController+textFieldShouldReturn.swift */,
+				04E8011722A14E0B0005129F /* NewPlaceTableViewController+ImagePicker.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -212,6 +215,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0462C88F229EBB8000828498 /* UIImageView+Extension.swift in Sources */,
+				04E8011822A14E0B0005129F /* NewPlaceTableViewController+ImagePicker.swift in Sources */,
 				0462C887229EB71000828498 /* UIView+Extension.swift in Sources */,
 				0462C883229EA12900828498 /* MainTableViewController.swift in Sources */,
 				0462C871229E9E6000828498 /* AppDelegate.swift in Sources */,
