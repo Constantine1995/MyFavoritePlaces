@@ -6,18 +6,31 @@
 //  Copyright © 2019 mac. All rights reserved.
 //
 
+import RealmSwift
 import UIKit
 
-struct FavoritePlace {
+class FavoritePlace: Object {
     
-    var name: String
-    var location: String?
-    var type: String?
-    var image: UIImage?
-    var placeImage: String?
+    @objc dynamic var name = ""
+    @objc dynamic var location: String?
+    @objc dynamic var type: String?
+    @objc dynamic var imageData: Data?
     
-    static func fetchPlaces() -> [FavoritePlace] {
-        let celentano = FavoritePlace(name: "Celentano", location: "Melitopol", type: "Restaurant", image: nil, placeImage: "celentano")
-        return [celentano]
+    let placeName = [
+    "celentano", "Burger House", "Fransua"
+    ]
+    
+    func savePlaces() {
+        
+        for place in placeName {
+            let image = UIImage(named: place)
+            guard let imageData = image?.pngData() else { return }
+            let newPlace = FavoritePlace()
+            newPlace.name = place
+            newPlace.location = "Melitopol"
+            newPlace.type = "Restaurant"
+            newPlace.imageData = imageData
+            StorageManager.saveObject(newPlace)
+        }
     }
 }

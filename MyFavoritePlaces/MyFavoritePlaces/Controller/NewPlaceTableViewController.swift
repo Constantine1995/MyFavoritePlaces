@@ -7,12 +7,12 @@
 //
 
 import UIKit
-
+import RealmSwift
 class NewPlaceTableViewController: UITableViewController {
     
     let newPlaceImageCellId = "newPlaceImageCellId"
     let newPlaceInfoCellId = "newPlaceInfoCellId"
-    var newPlace: FavoritePlace?
+    var newPlace = FavoritePlace()
     let placeCellHeaderData: [PlaceCellHeaderData] = PlaceCellHeaderData.fetchData()
     
     let titleHeader: UILabel = {
@@ -59,6 +59,13 @@ class NewPlaceTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        DispatchQueue.main.async {
+            self.newPlace.savePlaces()
+        }
+        
+        print(Realm.Configuration.defaultConfiguration.fileURL!)
+        
         setupTableView()
         setupNavigation()
         setupView()
@@ -88,7 +95,7 @@ class NewPlaceTableViewController: UITableViewController {
     }
     
     func saveNewPlace() {
-        newPlace = FavoritePlace(name: placeNameTextField.text!, location: placeLocationTextField.text, type: placeTypeTextField.text, image: placeImageView.image, placeImage: nil)
+        //        newPlace = FavoritePlace(name: placeNameTextField.text!, location: placeLocationTextField.text, type: placeTypeTextField.text, image: placeImageView.image)
     }
     
     // MARK: - Table view data source

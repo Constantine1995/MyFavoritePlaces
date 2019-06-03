@@ -12,7 +12,7 @@ class MainTableViewController: UITableViewController {
     
     var favoritePlaceCellId = "favoritePlaceCellId"
     
-    var favoritePlaceData: [FavoritePlace] = FavoritePlace.fetchPlaces()
+    var favoritePlaceData: [FavoritePlace] = [] //= FavoritePlace.fetchPlaces()
     
     let titleHeader: UILabel = {
         let label = UILabel()
@@ -55,8 +55,8 @@ class MainTableViewController: UITableViewController {
         cell.locationLabel.text = favoritePlaceData[indexPath.item].location
         cell.typeLabel.text = favoritePlaceData[indexPath.item].type
         
-        let imagePath = favoritePlaceData[indexPath.item].placeImage
-        cell.placeImageView.image = UIImage(named: imagePath!)
+//        let imagePath = favoritePlaceData[indexPath.item].placeImage
+//        cell.placeImageView.image = UIImage(named: imagePath!)
         
         return cell
     }
