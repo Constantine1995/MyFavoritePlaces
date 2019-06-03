@@ -20,5 +20,4 @@ struct FavoritePlace {
         let celentano = FavoritePlace(name: "Celentano", location: "Melitopol", type: "Restaurant", image: nil, placeImage: "celentano")
         return [celentano]
     }
-    
 }

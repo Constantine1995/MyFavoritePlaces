@@ -8,21 +8,25 @@
 
 import UIKit
 
-class NewPlaceInfoTableViewCell: UITableViewCell {
+protocol SwitchDelegate {
+    func didFinishEditing(text: String)
+}
 
+
+class NewPlaceInfoTableViewCell: UITableViewCell {
+    
+    class var identifier: String {
+        return String(describing: self)
+    }
+    
     @IBOutlet weak var placeTextLabel: UILabel!
     @IBOutlet weak var placeTextField: UITextField!
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        placeTextField.delegate = self
-        // Initialization code
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
     
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+    }
 }

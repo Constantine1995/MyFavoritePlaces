@@ -12,9 +12,7 @@ class NewPlaceTableViewController: UITableViewController {
     
     let newPlaceImageCellId = "newPlaceImageCellId"
     let newPlaceInfoCellId = "newPlaceInfoCellId"
-    let placeImageNameNib = "NewPlaceImageTableViewCell"
-    let placeInfoNameNib = "NewPlaceInfoTableViewCell"
-    
+    var newPlace: FavoritePlace?
     let placeCellHeaderData: [PlaceCellHeaderData] = PlaceCellHeaderData.fetchData()
     
     let titleHeader: UILabel = {
@@ -26,7 +24,7 @@ class NewPlaceTableViewController: UITableViewController {
         return label
     }()
     
-    let placeNameTextField: UITextField = {
+    var placeNameTextField: UITextField = {
         let textfield = UITextField()
         textfield.font = UIFont.systemFont(ofSize: 14)
         return textfield
@@ -51,7 +49,6 @@ class NewPlaceTableViewController: UITableViewController {
     
     var saveBarButtonItem: UIBarButtonItem = {
         let barButton = UIBarButtonItem()
-        //        barButton.isEnabled = false
         return barButton
     }()
     
@@ -64,11 +61,12 @@ class NewPlaceTableViewController: UITableViewController {
         super.viewDidLoad()
         setupTableView()
         setupNavigation()
+        setupView()
     }
     
     func setupTableView() {
-        let placeImageNib = UINib(nibName: placeImageNameNib, bundle: nil)
-        let placeInfoNib = UINib(nibName: placeInfoNameNib, bundle: nil)
+        let placeImageNib = UINib(nibName:  NewPlaceImageTableViewCell.identifier, bundle: nil)
+        let placeInfoNib = UINib(nibName:  NewPlaceInfoTableViewCell.identifier, bundle: nil)
         tableView.register(placeImageNib, forCellReuseIdentifier: newPlaceImageCellId)
         tableView.register(placeInfoNib, forCellReuseIdentifier: newPlaceInfoCellId)
         tableView.tableFooterView = UIView()
@@ -78,14 +76,19 @@ class NewPlaceTableViewController: UITableViewController {
         navigationItem.titleView = titleHeader
         cancelBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelAction))
         
-        saveBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: nil)
+        saveBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveAction))
         saveBarButtonItem.isEnabled = false
         navigationItem.leftBarButtonItem = cancelBarButtonItem
         navigationItem.rightBarButtonItem = saveBarButtonItem
     }
     
     func setupView() {
+        placeNameTextField.delegate = self
         placeNameTextField.addTarget(self, action: #selector(textFieldChanged), for: .editingChanged)
+    }
+    
+    func saveNewPlace() {
+        newPlace = FavoritePlace(name: placeNameTextField.text!, location: placeLocationTextField.text, type: placeTypeTextField.text, image: placeImageView.image, placeImage: nil)
     }
     
     // MARK: - Table view data source
@@ -105,8 +108,9 @@ class NewPlaceTableViewController: UITableViewController {
         default:
             let cell = tableView.dequeueReusableCell(withIdentifier: newPlaceInfoCellId, for: indexPath)  as! NewPlaceInfoTableViewCell
             let index = indexPath.item-1
+            placeNameTextField =  cell.placeTextField
             cell.placeTextLabel.text = placeCellHeaderData[index].title
-            cell.placeTextField.placeholder = placeCellHeaderData[index].placeholder
+            cell.placeTextField.addTarget(self, action: #selector(textFieldChanged), for: .editingChanged)
             cell.selectionStyle = .none
             cell.separatorInset = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
             return cell
@@ -158,8 +162,11 @@ class NewPlaceTableViewController: UITableViewController {
         dismiss(animated: true, completion: nil)
     }
     
+    @objc private func saveAction(_ : UIButton) {
+        dismiss(animated: true, completion: nil)
+    }
+    
     @objc private func textFieldChanged() {
-        
         if placeNameTextField.text?.isEmpty == false {
             saveBarButtonItem.isEnabled = true
         } else {
