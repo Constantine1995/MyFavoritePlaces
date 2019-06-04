@@ -8,11 +8,6 @@
 
 import UIKit
 
-protocol SwitchDelegate {
-    func didFinishEditing(text: String)
-}
-
-
 class NewPlaceInfoTableViewCell: UITableViewCell {
     
     class var identifier: String {

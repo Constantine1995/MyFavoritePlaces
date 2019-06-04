@@ -8,12 +8,54 @@
 
 import UIKit
 import RealmSwift
+
 class NewPlaceTableViewController: UITableViewController {
+    var delegate: NewPlaceCloseProtocol?
+    
+    func saveData() {
+        print("TEST")
+        var image: UIImage?
+        if imageIsChanged {
+            image = placeImageView.image
+        } else {
+            image = #imageLiteral(resourceName: "not-pace")
+        }
+        
+        let imageData = image?.pngData()
+        
+        let newPlace = FavoritePlace(name: placeTypeTextField.text!, location: placeLocationTextField.text, type: placeTypeTextField.text, imageData: imageData)
+        StorageManager.saveObject(newPlace)
+        
+    }
+    
+    //    var delegate: NewPlaceCloseProtocol?
+    
+    
+    
+    let newPlace = FavoritePlace()
+    
+    func savePlaces() {
+        print("TEST")
+        var image: UIImage?
+        if imageIsChanged {
+            image = placeImageView.image
+        } else {
+            image = #imageLiteral(resourceName: "not-pace")
+        }
+        
+        let imageData = image?.pngData()
+        
+        let newPlace = FavoritePlace(name: placeTypeTextField.text!, location: placeLocationTextField.text, type: placeTypeTextField.text, imageData: imageData)
+        StorageManager.saveObject(newPlace)
+    }
+    
+    var popVC: MainTableViewController?
     
     let newPlaceImageCellId = "newPlaceImageCellId"
     let newPlaceInfoCellId = "newPlaceInfoCellId"
-    var newPlace = FavoritePlace()
+    //    var newPlace = FavoritePlace()
     let placeCellHeaderData: [PlaceCellHeaderData] = PlaceCellHeaderData.fetchData()
+    var imageIsChanged = false
     
     let titleHeader: UILabel = {
         let label = UILabel()
@@ -30,13 +72,13 @@ class NewPlaceTableViewController: UITableViewController {
         return textfield
     }()
     
-    let placeLocationTextField: UITextField = {
+    var placeLocationTextField: UITextField = {
         let textfield = UITextField()
         textfield.font = UIFont.systemFont(ofSize: 14)
         return textfield
     }()
     
-    let placeTypeTextField: UITextField = {
+    var placeTypeTextField: UITextField = {
         let textfield = UITextField()
         textfield.font = UIFont.systemFont(ofSize: 14)
         return textfield
@@ -59,13 +101,6 @@ class NewPlaceTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        DispatchQueue.main.async {
-            self.newPlace.savePlaces()
-        }
-        
-        print(Realm.Configuration.defaultConfiguration.fileURL!)
-        
         setupTableView()
         setupNavigation()
         setupView()
@@ -90,12 +125,10 @@ class NewPlaceTableViewController: UITableViewController {
     }
     
     func setupView() {
+        //        popVC?.delegate = self
+        
         placeNameTextField.delegate = self
         placeNameTextField.addTarget(self, action: #selector(textFieldChanged), for: .editingChanged)
-    }
-    
-    func saveNewPlace() {
-        //        newPlace = FavoritePlace(name: placeNameTextField.text!, location: placeLocationTextField.text, type: placeTypeTextField.text, image: placeImageView.image)
     }
     
     // MARK: - Table view data source
@@ -116,6 +149,8 @@ class NewPlaceTableViewController: UITableViewController {
             let cell = tableView.dequeueReusableCell(withIdentifier: newPlaceInfoCellId, for: indexPath)  as! NewPlaceInfoTableViewCell
             let index = indexPath.item-1
             placeNameTextField =  cell.placeTextField
+//            placeLocationTextField = cell.placeLocationTextField
+//            placeTypeTextField = cell.placetypeTextField
             cell.placeTextLabel.text = placeCellHeaderData[index].title
             cell.placeTextField.addTarget(self, action: #selector(textFieldChanged), for: .editingChanged)
             cell.selectionStyle = .none
@@ -170,7 +205,22 @@ class NewPlaceTableViewController: UITableViewController {
     }
     
     @objc private func saveAction(_ : UIButton) {
+       
+        var image: UIImage?
+        if imageIsChanged {
+            image = placeImageView.image
+        } else {
+            image = #imageLiteral(resourceName: "not-pace")
+        }
+        
+        let imageData = image?.pngData()
+        print("-- \(placeTypeTextField.text!)")
+        let newPlace = FavoritePlace(name: placeNameTextField.text!, location: placeLocationTextField.text, type: placeTypeTextField.text, imageData: imageData)
+        StorageManager.saveObject(newPlace)
+        delegate?.saveData(place: newPlace)
+        
         dismiss(animated: true, completion: nil)
+        
     }
     
     @objc private func textFieldChanged() {

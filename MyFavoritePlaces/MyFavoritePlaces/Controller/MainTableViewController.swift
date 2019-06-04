@@ -7,12 +7,15 @@
 //
 
 import UIKit
+import RealmSwift
 
-class MainTableViewController: UITableViewController {
+class MainTableViewController: UITableViewController, NewPlaceCloseProtocol {
+    
+    var newPlaceTVC: NewPlaceTableViewController?
+    
+    var places: Results<FavoritePlace>!
     
     var favoritePlaceCellId = "favoritePlaceCellId"
-    
-    var favoritePlaceData: [FavoritePlace] = [] //= FavoritePlace.fetchPlaces()
     
     let titleHeader: UILabel = {
         let label = UILabel()
@@ -25,10 +28,20 @@ class MainTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        places = realm.objects(FavoritePlace.self)
+        setupTableView()
+        setupNavigation()
+        newPlaceTVC?.delegate = self
+    }
+    
+    func saveData(place: FavoritePlace) {
+//        places = place
+//        tableView.reloadData()
+    }
+    
+    func setupTableView() {
         tableView.register(FavoritePlaceTableViewCell.self, forCellReuseIdentifier: favoritePlaceCellId)
         tableView.separatorStyle = .none
-        
-        setupNavigation()
     }
     
     func setupNavigation() {
@@ -45,18 +58,18 @@ class MainTableViewController: UITableViewController {
     
     // MARK: - Table view data source
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return favoritePlaceData.count
+        return places.isEmpty ? 0 : places.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: favoritePlaceCellId, for: indexPath) as! FavoritePlaceTableViewCell
         
-        cell.nameLabel.text = favoritePlaceData[indexPath.item].name
-        cell.locationLabel.text = favoritePlaceData[indexPath.item].location
-        cell.typeLabel.text = favoritePlaceData[indexPath.item].type
-        
-//        let imagePath = favoritePlaceData[indexPath.item].placeImage
-//        cell.placeImageView.image = UIImage(named: imagePath!)
+        let place = places[indexPath.item]
+        cell.nameLabel.text = place.name
+        cell.locationLabel.text = place.location
+        cell.typeLabel.text = place.type
+        cell.placeImageView.image = UIImage(data: place.imageData!)
+//        cell.selectionStyle = .none
         
         return cell
     }

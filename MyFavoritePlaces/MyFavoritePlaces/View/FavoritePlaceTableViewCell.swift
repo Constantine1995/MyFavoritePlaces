@@ -10,6 +10,10 @@ import UIKit
 
 class FavoritePlaceTableViewCell: UITableViewCell {
     
+    class var identifier: String {
+        return String(describing: self)
+    }
+    
     let placeCellView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
