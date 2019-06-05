@@ -9,9 +9,7 @@
 import UIKit
 import RealmSwift
 
-class MainTableViewController: UITableViewController, NewPlaceCloseProtocol {
-    
-    var newPlaceTVC: NewPlaceTableViewController?
+class MainTableViewController: UITableViewController {
     
     var places: Results<FavoritePlace>!
     
@@ -29,13 +27,13 @@ class MainTableViewController: UITableViewController, NewPlaceCloseProtocol {
     override func viewDidLoad() {
         super.viewDidLoad()
         places = realm.objects(FavoritePlace.self)
+        setupNotificationCenter()
         setupTableView()
         setupNavigation()
     }
     
-    func saveData(place: FavoritePlace) {
-//        places = place
-//        tableView.reloadData()
+    func setupNotificationCenter() {
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadTableView), name: NSNotification.Name(rawValue: "reloadBeforeSaveToRealm"), object: nil)
     }
     
     func setupTableView() {
@@ -68,8 +66,12 @@ class MainTableViewController: UITableViewController, NewPlaceCloseProtocol {
         cell.locationLabel.text = place.location
         cell.typeLabel.text = place.type
         cell.placeImageView.image = UIImage(data: place.imageData!)
-//        cell.selectionStyle = .none
+        //        cell.selectionStyle = .none
         
         return cell
+    }
+    
+    @objc func reloadTableView(){
+        self.tableView.reloadData()
     }
 }

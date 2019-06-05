@@ -77,8 +77,8 @@ class NewPlaceTableViewController: UITableViewController {
         tableView.register(placeImageNib, forCellReuseIdentifier: newPlaceImageCellId)
         tableView.register(placeNameNib, forCellReuseIdentifier: newPlaceNameCellId)
         tableView.register(placeTypeNib, forCellReuseIdentifier: newPlaceTypeCellId)
-        
         tableView.register(placeLocationNib, forCellReuseIdentifier: newPlaceLocationCellId)
+        
         tableView.tableFooterView = UIView()
     }
     
@@ -104,45 +104,36 @@ class NewPlaceTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
+        let index = indexPath.item-1
+        
         switch indexPath.item  {
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: newPlaceImageCellId, for: indexPath) as! NewPlaceImageTableViewCell
             cell.placeImageView.image = placeImageView.image
-            cell.selectionStyle = .none
-            cell.separatorInset = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
+            configureCell(cell)
             return cell
             
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: newPlaceNameCellId, for: indexPath)  as! NewPlaceNameTableViewCell
-            let index = indexPath.item-1
             placeNameTextField =  cell.placeNameTextField
             cell.placeTextLabel.text = placeCellHeaderData[index].title
             cell.placeNameTextField.addTarget(self, action: #selector(textFieldChanged), for: .editingChanged)
-            cell.selectionStyle = .none
-            cell.separatorInset = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
             return cell
             
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: newPlaceLocationCellId, for: indexPath)  as! NewPlaceLocationTableViewCell
-            let index = indexPath.item-1
-            placeLocationTextField = cell.placeLocationTextField
             cell.placeTextLabel.text = placeCellHeaderData[index].title
-            cell.selectionStyle = .none
-            cell.separatorInset = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
+            configureCell(cell)
             return cell
             
         case 3:
             let cell = tableView.dequeueReusableCell(withIdentifier: newPlaceTypeCellId, for: indexPath)  as! NewPlaceTypeTableViewCell
-            let index = indexPath.item-1
-            placeTypeTextField = cell.placeTypeTextField
             cell.placeTextLabel.text = placeCellHeaderData[index].title
-            cell.selectionStyle = .none
-            cell.separatorInset = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
+            configureCell(cell)
             return cell
         default:
             return UITableViewCell()
         }
-        
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -186,13 +177,18 @@ class NewPlaceTableViewController: UITableViewController {
         }
     }
     
+    func configureCell(_ cell: UITableViewCell) {
+        cell.selectionStyle = .none
+        cell.separatorInset = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
+    }
+    
     @objc private func cancelAction(_ : UIButton) {
         dismiss(animated: true, completion: nil)
     }
     
     @objc private func saveAction(_ : UIButton) {
-        
         var image: UIImage?
+        
         if imageIsChanged {
             image = placeImageView.image
         } else {
@@ -200,11 +196,11 @@ class NewPlaceTableViewController: UITableViewController {
         }
         
         let imageData = image?.pngData()
-        print("-- \(placeTypeTextField.text!)")
         let newPlace = FavoritePlace(name: placeNameTextField.text!, location: placeLocationTextField.text, type: placeTypeTextField.text, imageData: imageData)
-        StorageManager.saveObject(newPlace)
-        dismiss(animated: true, completion: nil)
         
+        StorageManager.saveObject(newPlace)
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "reloadBeforeSaveToRealm"), object: nil)
+        dismiss(animated: true, completion: nil)
     }
     
     @objc private func textFieldChanged() {
