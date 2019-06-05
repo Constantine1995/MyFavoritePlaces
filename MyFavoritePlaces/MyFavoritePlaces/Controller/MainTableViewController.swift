@@ -31,7 +31,6 @@ class MainTableViewController: UITableViewController, NewPlaceCloseProtocol {
         places = realm.objects(FavoritePlace.self)
         setupTableView()
         setupNavigation()
-        newPlaceTVC?.delegate = self
     }
     
     func saveData(place: FavoritePlace) {

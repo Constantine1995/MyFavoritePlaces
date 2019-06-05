@@ -1,21 +1,21 @@
 //
-//  NewPlaceInfoTableViewCell.swift
+//  NewPlaceLocationTableViewCell.swift
 //  MyFavoritePlaces
 //
-//  Created by mac on 5/31/19.
+//  Created by mac on 6/5/19.
 //  Copyright © 2019 mac. All rights reserved.
 //
 
 import UIKit
 
-class NewPlaceNameTableViewCell: UITableViewCell {
-    
+class NewPlaceLocationTableViewCell: UITableViewCell {
+
     class var identifier: String {
         return String(describing: self)
     }
     
     @IBOutlet weak var placeTextLabel: UILabel!
-    @IBOutlet weak var placeNameTextField: UITextField!
+    @IBOutlet weak var placeLocationTextField: UITextField!
     
     override func awakeFromNib() {
         super.awakeFromNib()

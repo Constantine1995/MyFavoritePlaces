@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0422B58222A7C24100065C0B /* NewPlaceLocationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0422B58022A7C24100065C0B /* NewPlaceLocationTableViewCell.swift */; };
+		0422B58622A7C2BD00065C0B /* NewPlaceTypeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0422B58522A7C2BD00065C0B /* NewPlaceTypeTableViewCell.swift */; };
+		0422B58822A7C67100065C0B /* NewPlaceLocationTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0422B58422A7C27600065C0B /* NewPlaceLocationTableViewCell.xib */; };
+		0422B58922A7C67500065C0B /* NewPlaceTypeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0422B58722A7C2CD00065C0B /* NewPlaceTypeTableViewCell.xib */; };
 		045028BC229FB11500B08F3C /* NewPlaceTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045028BB229FB11500B08F3C /* NewPlaceTableViewController.swift */; };
 		045028DA22A018D600B08F3C /* NewPlaceViewController+textFieldShouldReturn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045028D922A018D600B08F3C /* NewPlaceViewController+textFieldShouldReturn.swift */; };
 		045028E122A1330B00B08F3C /* NewPlaceImageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045028DF22A1330B00B08F3C /* NewPlaceImageTableViewCell.swift */; };
@@ -21,7 +25,7 @@
 		0462C88F229EBB8000828498 /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462C88E229EBB8000828498 /* UIImageView+Extension.swift */; };
 		04DF422F22A541720099CF8A /* NewPlaceCloseProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DF422E22A541720099CF8A /* NewPlaceCloseProtocol.swift */; };
 		04E8011522A134C90005129F /* NewPlaceInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E8011322A134C90005129F /* NewPlaceInfoTableViewCell.swift */; };
-		04E8011622A134C90005129F /* NewPlaceInfoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04E8011422A134C90005129F /* NewPlaceInfoTableViewCell.xib */; };
+		04E8011622A134C90005129F /* NewPlaceNameTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04E8011422A134C90005129F /* NewPlaceNameTableViewCell.xib */; };
 		04E8011822A14E0B0005129F /* NewPlaceTableViewController+ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E8011722A14E0B0005129F /* NewPlaceTableViewController+ImagePicker.swift */; };
 		04E8011A22A16B250005129F /* PlaceCellHeaderData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E8011922A16B250005129F /* PlaceCellHeaderData.swift */; };
 		04F882BE22A50C9800D3BCCD /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F882BD22A50C9800D3BCCD /* StorageManager.swift */; };
@@ -30,6 +34,10 @@
 
 /* Begin PBXFileReference section */
 		03095AC52EFAC971CF2A3EF6 /* Pods_MyFavoritePlaces.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyFavoritePlaces.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		0422B58022A7C24100065C0B /* NewPlaceLocationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPlaceLocationTableViewCell.swift; sourceTree = "<group>"; };
+		0422B58422A7C27600065C0B /* NewPlaceLocationTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewPlaceLocationTableViewCell.xib; sourceTree = "<group>"; };
+		0422B58522A7C2BD00065C0B /* NewPlaceTypeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPlaceTypeTableViewCell.swift; sourceTree = "<group>"; };
+		0422B58722A7C2CD00065C0B /* NewPlaceTypeTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewPlaceTypeTableViewCell.xib; sourceTree = "<group>"; };
 		045028BB229FB11500B08F3C /* NewPlaceTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPlaceTableViewController.swift; sourceTree = "<group>"; };
 		045028D922A018D600B08F3C /* NewPlaceViewController+textFieldShouldReturn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NewPlaceViewController+textFieldShouldReturn.swift"; sourceTree = "<group>"; };
 		045028DF22A1330B00B08F3C /* NewPlaceImageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPlaceImageTableViewCell.swift; sourceTree = "<group>"; };
@@ -46,7 +54,7 @@
 		0462C88E229EBB8000828498 /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
 		04DF422E22A541720099CF8A /* NewPlaceCloseProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPlaceCloseProtocol.swift; sourceTree = "<group>"; };
 		04E8011322A134C90005129F /* NewPlaceInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPlaceInfoTableViewCell.swift; sourceTree = "<group>"; };
-		04E8011422A134C90005129F /* NewPlaceInfoTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewPlaceInfoTableViewCell.xib; sourceTree = "<group>"; };
+		04E8011422A134C90005129F /* NewPlaceNameTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewPlaceNameTableViewCell.xib; sourceTree = "<group>"; };
 		04E8011722A14E0B0005129F /* NewPlaceTableViewController+ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NewPlaceTableViewController+ImagePicker.swift"; sourceTree = "<group>"; };
 		04E8011922A16B250005129F /* PlaceCellHeaderData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceCellHeaderData.swift; sourceTree = "<group>"; };
 		04F882BD22A50C9800D3BCCD /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
@@ -66,6 +74,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0422B57F22A7C1D100065C0B /* ImagePlaces */ = {
+			isa = PBXGroup;
+			children = (
+				045028DF22A1330B00B08F3C /* NewPlaceImageTableViewCell.swift */,
+				045028E022A1330B00B08F3C /* NewPlaceImageTableViewCell.xib */,
+			);
+			path = ImagePlaces;
+			sourceTree = "<group>";
+		};
 		045028D822A00E1B00B08F3C /* Controller */ = {
 			isa = PBXGroup;
 			children = (
@@ -78,10 +95,13 @@
 		045028E322A1344600B08F3C /* Cell */ = {
 			isa = PBXGroup;
 			children = (
-				045028DF22A1330B00B08F3C /* NewPlaceImageTableViewCell.swift */,
-				045028E022A1330B00B08F3C /* NewPlaceImageTableViewCell.xib */,
+				0422B57F22A7C1D100065C0B /* ImagePlaces */,
 				04E8011322A134C90005129F /* NewPlaceInfoTableViewCell.swift */,
-				04E8011422A134C90005129F /* NewPlaceInfoTableViewCell.xib */,
+				04E8011422A134C90005129F /* NewPlaceNameTableViewCell.xib */,
+				0422B58022A7C24100065C0B /* NewPlaceLocationTableViewCell.swift */,
+				0422B58422A7C27600065C0B /* NewPlaceLocationTableViewCell.xib */,
+				0422B58522A7C2BD00065C0B /* NewPlaceTypeTableViewCell.swift */,
+				0422B58722A7C2CD00065C0B /* NewPlaceTypeTableViewCell.xib */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -251,7 +271,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				04E8011622A134C90005129F /* NewPlaceInfoTableViewCell.xib in Resources */,
+				0422B58922A7C67500065C0B /* NewPlaceTypeTableViewCell.xib in Resources */,
+				0422B58822A7C67100065C0B /* NewPlaceLocationTableViewCell.xib in Resources */,
+				04E8011622A134C90005129F /* NewPlaceNameTableViewCell.xib in Resources */,
 				045028E222A1330B00B08F3C /* NewPlaceImageTableViewCell.xib in Resources */,
 				0462C87B229E9E6100828498 /* LaunchScreen.storyboard in Resources */,
 				0462C878229E9E6100828498 /* Assets.xcassets in Resources */,
@@ -323,10 +345,12 @@
 				0462C88D229EBB2E00828498 /* FavoritePlaceTableViewCell.swift in Sources */,
 				04E8011A22A16B250005129F /* PlaceCellHeaderData.swift in Sources */,
 				045028DA22A018D600B08F3C /* NewPlaceViewController+textFieldShouldReturn.swift in Sources */,
+				0422B58222A7C24100065C0B /* NewPlaceLocationTableViewCell.swift in Sources */,
 				04E8011522A134C90005129F /* NewPlaceInfoTableViewCell.swift in Sources */,
 				0462C88A229EB92C00828498 /* FavoritePlace.swift in Sources */,
 				04DF422F22A541720099CF8A /* NewPlaceCloseProtocol.swift in Sources */,
 				045028BC229FB11500B08F3C /* NewPlaceTableViewController.swift in Sources */,
+				0422B58622A7C2BD00065C0B /* NewPlaceTypeTableViewCell.swift in Sources */,
 				04F882BE22A50C9800D3BCCD /* StorageManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

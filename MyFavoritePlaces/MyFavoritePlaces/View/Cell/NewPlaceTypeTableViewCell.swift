@@ -1,21 +1,21 @@
 //
-//  NewPlaceInfoTableViewCell.swift
+//  NewPlaceTypeTableViewCell.swift
 //  MyFavoritePlaces
 //
-//  Created by mac on 5/31/19.
+//  Created by mac on 6/5/19.
 //  Copyright © 2019 mac. All rights reserved.
 //
 
 import UIKit
 
-class NewPlaceNameTableViewCell: UITableViewCell {
-    
+class NewPlaceTypeTableViewCell: UITableViewCell {
+
     class var identifier: String {
         return String(describing: self)
     }
     
     @IBOutlet weak var placeTextLabel: UILabel!
-    @IBOutlet weak var placeNameTextField: UITextField!
+    @IBOutlet weak var placeTypeTextField: UITextField!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -24,4 +24,5 @@ class NewPlaceNameTableViewCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
+
 }
