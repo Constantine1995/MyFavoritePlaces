@@ -65,7 +65,6 @@ class NewPlaceTableViewController: UITableViewController {
         super.viewDidLoad()
         setupTableView()
         setupNavigation()
-        setupView()
     }
     
     func setupTableView() {
@@ -92,14 +91,9 @@ class NewPlaceTableViewController: UITableViewController {
         navigationItem.rightBarButtonItem = saveBarButtonItem
     }
     
-    func setupView() {
-        placeNameTextField.delegate = self
-        placeNameTextField.addTarget(self, action: #selector(textFieldChanged), for: .editingChanged)
-    }
-    
     // MARK: - Table view data source
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 4
+        return placeCellHeaderData.count+1
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -116,18 +110,23 @@ class NewPlaceTableViewController: UITableViewController {
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: newPlaceNameCellId, for: indexPath)  as! NewPlaceNameTableViewCell
             placeNameTextField =  cell.placeNameTextField
+            cell.placeNameTextField.delegate = self
             cell.placeTextLabel.text = placeCellHeaderData[index].title
             cell.placeNameTextField.addTarget(self, action: #selector(textFieldChanged), for: .editingChanged)
             return cell
             
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: newPlaceLocationCellId, for: indexPath)  as! NewPlaceLocationTableViewCell
+            placeLocationTextField = cell.placeLocationTextField
+            cell.placeLocationTextField.delegate = self
             cell.placeTextLabel.text = placeCellHeaderData[index].title
             configureCell(cell)
             return cell
             
         case 3:
             let cell = tableView.dequeueReusableCell(withIdentifier: newPlaceTypeCellId, for: indexPath)  as! NewPlaceTypeTableViewCell
+            placeTypeTextField = cell.placeTypeTextField
+            cell.placeTypeTextField.delegate = self
             cell.placeTextLabel.text = placeCellHeaderData[index].title
             configureCell(cell)
             return cell
