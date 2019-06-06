@@ -11,12 +11,21 @@ import RealmSwift
 
 class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    var places: Results<FavoritePlace>!
+    internal var places: Results<FavoritePlace>!
+    internal var filterPlaces: Results<FavoritePlace>!
+    private var searchBarIsEmpty: Bool {
+        guard let text = searchController.searchBar.text else { return false }
+        return text.isEmpty
+    }
+    private var isFiltering: Bool {
+        return searchController.isActive && !searchBarIsEmpty
+    }
+    private var ascendingSorting = true
+    private var favoritePlaceCellId = "favoritePlaceCellId"
     
-    var favoritePlaceCellId = "favoritePlaceCellId"
-    var ascendingSorting = true
+    private let searchController = UISearchController(searchResultsController: nil)
     
-    private let tableView: UITableView = {
+    internal let tableView: UITableView = {
         let tableView = UITableView()
         return tableView
     }()
@@ -48,10 +57,19 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     override func viewDidLoad() {
         super.viewDidLoad()
         places = realm.objects(FavoritePlace.self)
+        setupSearchController()
         setupSegmentedControl()
         setupTableView()
         setupNotificationCenter()
         setupNavigation()
+    }
+    
+    func setupSearchController() {
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search"
+        navigationItem.searchController = searchController
+        definesPresentationContext = true
     }
     
     func setupNotificationCenter() {
@@ -101,13 +119,20 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     // MARK: - Table view data source
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if isFiltering {
+            return filterPlaces.count
+        }
         return places.isEmpty ? 0 : places.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: favoritePlaceCellId, for: indexPath) as! FavoritePlaceTableViewCell
-        
-        let place = places[indexPath.item]
+        var place = FavoritePlace()
+        if isFiltering {
+            place = filterPlaces[indexPath.item]
+        } else {
+            place = places[indexPath.item]
+        }
         cell.nameLabel.text = place.name
         cell.locationLabel.text = place.location
         cell.typeLabel.text = place.type
@@ -120,7 +145,12 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         let newPlaceTableViewController = NewPlaceTableViewController()
         let newPlaceNavigationController = UINavigationController(rootViewController: newPlaceTableViewController)
         newPlaceNavigationController.modalTransitionStyle = .flipHorizontal
-        let place = places[indexPath.item]
+        let place: FavoritePlace
+        if isFiltering {
+            place = filterPlaces[indexPath.item]
+        } else {
+            place = places[indexPath.item]
+        }
         newPlaceTableViewController.currentPlace = place
         navigationController?.present(newPlaceNavigationController, animated: true)
     }
