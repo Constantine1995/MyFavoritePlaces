@@ -9,12 +9,16 @@
 import UIKit
 import RealmSwift
 
-class MainTableViewController: UITableViewController {
+class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     var places: Results<FavoritePlace>!
     
     var favoritePlaceCellId = "favoritePlaceCellId"
     
+    private let tableView: UITableView = {
+        let tableView = UITableView()
+        return tableView
+    }()
     let titleHeader: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 20, weight: .medium)
@@ -24,11 +28,28 @@ class MainTableViewController: UITableViewController {
         return label
     }()
     
+    var sortPlaceButton: UIBarButtonItem = {
+        let barButton = UIBarButtonItem()
+        barButton.image = #imageLiteral(resourceName: "AZ")
+        return barButton
+    }()
+    
+    var addNewPlaceButton: UIBarButtonItem = {
+        let barButton = UIBarButtonItem()
+        return barButton
+    }()
+    
+    var sortSegmentedControl: UISegmentedControl = {
+        let segmentedControl = UISegmentedControl()
+        return segmentedControl
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         places = realm.objects(FavoritePlace.self)
-        setupNotificationCenter()
+        setupSegmentedControl()
         setupTableView()
+        setupNotificationCenter()
         setupNavigation()
     }
     
@@ -37,14 +58,27 @@ class MainTableViewController: UITableViewController {
     }
     
     func setupTableView() {
+        view.addSubview(tableView)
+        tableView.setAnchor(top: sortSegmentedControl.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, bottom: view.bottomAnchor, paddingTop: 10, paddingLeft: 0, paddingRight: 0, paddingBottom: 0)
+        tableView.dataSource = self
+        tableView.delegate = self
         tableView.register(FavoritePlaceTableViewCell.self, forCellReuseIdentifier: favoritePlaceCellId)
         tableView.separatorStyle = .none
     }
     
+    func setupSegmentedControl() {
+        let items = ["Date" , "Name"]
+        sortSegmentedControl = UISegmentedControl(items : items)
+        sortSegmentedControl.selectedSegmentIndex = 0
+        view.addSubview(sortSegmentedControl)
+        sortSegmentedControl.setAnchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, right: view.rightAnchor, bottom: nil, paddingTop: 0, paddingLeft: 0, paddingRight: 0, paddingBottom: 0)
+        
+    }
     func setupNavigation() {
         navigationItem.titleView = titleHeader
-        let rightAddButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(goToNewPlace))
-        navigationItem.rightBarButtonItem = rightAddButton
+        navigationItem.leftBarButtonItem = sortPlaceButton
+        addNewPlaceButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(goToNewPlace))
+        navigationItem.rightBarButtonItem = addNewPlaceButton
     }
     
     @objc func goToNewPlace() {
@@ -54,11 +88,11 @@ class MainTableViewController: UITableViewController {
     }
     
     // MARK: - Table view data source
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return places.isEmpty ? 0 : places.count
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: favoritePlaceCellId, for: indexPath) as! FavoritePlaceTableViewCell
         
         let place = places[indexPath.item]
@@ -70,7 +104,7 @@ class MainTableViewController: UITableViewController {
         return cell
     }
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let newPlaceTableViewController = NewPlaceTableViewController()
         let newPlaceNavigationController = UINavigationController(rootViewController: newPlaceTableViewController)
         newPlaceNavigationController.modalTransitionStyle = .flipHorizontal
@@ -80,7 +114,7 @@ class MainTableViewController: UITableViewController {
     }
     
     // MARK: - Table view delegate
-    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         let place = places[indexPath.item]
         let deleteAction = UITableViewRowAction(style: .default, title: "Delete") { (_, _) in
             StorageManager.shared.deleteObject(place)

@@ -16,7 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
        
         window = UIWindow(frame: UIScreen.main.bounds)
-        let mainTableViewController = MainTableViewController()
+        let mainTableViewController = MainViewController()
         mainTableViewController.view.backgroundColor = .white
         window?.rootViewController = UINavigationController(rootViewController: mainTableViewController)
         window?.makeKeyAndVisible()
