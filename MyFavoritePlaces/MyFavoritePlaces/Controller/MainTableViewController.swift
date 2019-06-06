@@ -66,9 +66,27 @@ class MainTableViewController: UITableViewController {
         cell.locationLabel.text = place.location
         cell.typeLabel.text = place.type
         cell.placeImageView.image = UIImage(data: place.imageData!)
-        //        cell.selectionStyle = .none
-        
+        cell.selectionStyle = .none
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let newPlaceTableViewController = NewPlaceTableViewController()
+        let newPlaceNavigationController = UINavigationController(rootViewController: newPlaceTableViewController)
+        newPlaceNavigationController.modalTransitionStyle = .flipHorizontal
+        let place = places[indexPath.item]
+        newPlaceTableViewController.currentPlace = place
+        navigationController?.present(newPlaceNavigationController, animated: true)
+    }
+    
+    // MARK: - Table view delegate
+    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let place = places[indexPath.item]
+        let deleteAction = UITableViewRowAction(style: .default, title: "Delete") { (_, _) in
+            StorageManager.shared.deleteObject(place)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+        }
+        return [deleteAction]
     }
     
     @objc func reloadTableView(){

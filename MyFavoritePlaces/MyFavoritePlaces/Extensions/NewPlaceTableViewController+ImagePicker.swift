@@ -25,7 +25,7 @@ extension NewPlaceTableViewController: UIImagePickerControllerDelegate, UINaviga
         placeImageView.contentMode = .scaleAspectFill
         placeImageView.clipsToBounds = true
         imageIsChanged = true
-        dismiss(animated: true)
         tableView.reloadData()
+        dismiss(animated: true)
     }
 }

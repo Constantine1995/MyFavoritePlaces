@@ -12,9 +12,20 @@ let realm = try! Realm()
 
 class StorageManager {
     
-    static func saveObject(_ place: FavoritePlace) {
+    static let shared = StorageManager()
+    
+    private init(){}
+    
+    func saveObject(_ place: FavoritePlace) {
         try! realm.write {
             realm.add(place)
         }
     }
+    
+    func deleteObject(_ place: FavoritePlace) {
+        try! realm.write {
+            realm.delete(place)
+        }
+    }
+    
 }

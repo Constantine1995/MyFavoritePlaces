@@ -18,6 +18,7 @@ class NewPlaceTableViewController: UITableViewController {
     
     let placeCellHeaderData: [PlaceCellHeaderData] = PlaceCellHeaderData.fetchData()
     var imageIsChanged = false
+    var currentPlace: FavoritePlace?
     
     let titleHeader: UILabel = {
         let label = UILabel()
@@ -61,6 +62,11 @@ class NewPlaceTableViewController: UITableViewController {
         return barButton
     }()
     
+    var undoBarButtonItem:  UIBarButtonItem = {
+        let barButton = UIBarButtonItem()
+        return barButton
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
@@ -83,11 +89,12 @@ class NewPlaceTableViewController: UITableViewController {
     
     func setupNavigation() {
         navigationItem.titleView = titleHeader
-        cancelBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelAction))
-        
+        if currentPlace == nil {
+            cancelBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelAction))
+            navigationItem.leftBarButtonItem = cancelBarButtonItem
+        }
         saveBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveAction))
         saveBarButtonItem.isEnabled = false
-        navigationItem.leftBarButtonItem = cancelBarButtonItem
         navigationItem.rightBarButtonItem = saveBarButtonItem
     }
     
@@ -103,13 +110,16 @@ class NewPlaceTableViewController: UITableViewController {
         switch indexPath.item  {
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: newPlaceImageCellId, for: indexPath) as! NewPlaceImageTableViewCell
+            setupEditScreen(placeImage: placeImageView, name: nil, location: nil, type: nil)
             cell.placeImageView.image = placeImageView.image
             configureCell(cell)
             return cell
             
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: newPlaceNameCellId, for: indexPath)  as! NewPlaceNameTableViewCell
-            placeNameTextField =  cell.placeNameTextField
+            placeNameTextField = cell.placeNameTextField
+            setupEditScreen(placeImage: nil, name: placeNameTextField, location: nil, type: nil)
+            configureCell(cell)
             cell.placeNameTextField.delegate = self
             cell.placeTextLabel.text = placeCellHeaderData[index].title
             cell.placeNameTextField.addTarget(self, action: #selector(textFieldChanged), for: .editingChanged)
@@ -118,6 +128,7 @@ class NewPlaceTableViewController: UITableViewController {
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: newPlaceLocationCellId, for: indexPath)  as! NewPlaceLocationTableViewCell
             placeLocationTextField = cell.placeLocationTextField
+            setupEditScreen(placeImage: nil, name: nil, location: placeLocationTextField, type: nil)
             cell.placeLocationTextField.delegate = self
             cell.placeTextLabel.text = placeCellHeaderData[index].title
             configureCell(cell)
@@ -126,6 +137,7 @@ class NewPlaceTableViewController: UITableViewController {
         case 3:
             let cell = tableView.dequeueReusableCell(withIdentifier: newPlaceTypeCellId, for: indexPath)  as! NewPlaceTypeTableViewCell
             placeTypeTextField = cell.placeTypeTextField
+            setupEditScreen(placeImage: nil, name: nil, location: nil, type: placeTypeTextField)
             cell.placeTypeTextField.delegate = self
             cell.placeTextLabel.text = placeCellHeaderData[index].title
             configureCell(cell)
@@ -176,16 +188,31 @@ class NewPlaceTableViewController: UITableViewController {
         }
     }
     
-    func configureCell(_ cell: UITableViewCell) {
+    private func configureCell(_ cell: UITableViewCell) {
         cell.selectionStyle = .none
         cell.separatorInset = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
     }
     
-    @objc private func cancelAction(_ : UIButton) {
-        dismiss(animated: true, completion: nil)
+    private func setupEditScreen(placeImage: UIImageView?, name: UITextField?, location: UITextField?, type: UITextField?) {
+        if currentPlace != nil {
+            setupNavigationBar()
+            imageIsChanged = true
+            guard let data = currentPlace?.imageData, let image = UIImage(data: data) else { return }
+            placeImage?.image = image
+            name?.text = currentPlace?.name
+            location?.text = currentPlace?.location
+            type?.text = currentPlace?.type
+        }
     }
     
-    @objc private func saveAction(_ : UIButton) {
+    private func setupNavigationBar() {
+        undoBarButtonItem = UIBarButtonItem(barButtonSystemItem: .undo, target: self, action: #selector(cancelAction))
+        navigationItem.leftBarButtonItem = undoBarButtonItem
+        titleHeader.text = currentPlace?.name
+        saveBarButtonItem.isEnabled = true
+    }
+    
+    func savePlace() {
         var image: UIImage?
         
         if imageIsChanged {
@@ -196,8 +223,24 @@ class NewPlaceTableViewController: UITableViewController {
         
         let imageData = image?.pngData()
         let newPlace = FavoritePlace(name: placeNameTextField.text!, location: placeLocationTextField.text, type: placeTypeTextField.text, imageData: imageData)
-        
-        StorageManager.saveObject(newPlace)
+        if currentPlace != nil {
+            try! realm.write {
+                currentPlace?.name = newPlace.name
+                currentPlace?.location = newPlace.location
+                currentPlace?.type = newPlace.type
+                currentPlace?.imageData = newPlace.imageData
+            }
+        } else {
+            StorageManager.shared.saveObject(newPlace)
+        }
+    }
+    
+    @objc private func cancelAction(_ : UIButton) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    @objc private func saveAction(_ : UIButton) {
+        savePlace()
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "reloadBeforeSaveToRealm"), object: nil)
         dismiss(animated: true, completion: nil)
     }
