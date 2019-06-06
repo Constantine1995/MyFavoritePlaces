@@ -14,11 +14,13 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     var places: Results<FavoritePlace>!
     
     var favoritePlaceCellId = "favoritePlaceCellId"
+    var ascendingSorting = true
     
     private let tableView: UITableView = {
         let tableView = UITableView()
         return tableView
     }()
+    
     let titleHeader: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 20, weight: .medium)
@@ -28,9 +30,8 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         return label
     }()
     
-    var sortPlaceButton: UIBarButtonItem = {
+    var reverseSortingPlaceButton: UIBarButtonItem = {
         let barButton = UIBarButtonItem()
-        barButton.image = #imageLiteral(resourceName: "AZ")
         return barButton
     }()
     
@@ -70,15 +71,26 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         let items = ["Date" , "Name"]
         sortSegmentedControl = UISegmentedControl(items : items)
         sortSegmentedControl.selectedSegmentIndex = 0
+        sortSegmentedControl.addTarget(self, action: #selector(sortSelection), for: .valueChanged)
         view.addSubview(sortSegmentedControl)
         sortSegmentedControl.setAnchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, right: view.rightAnchor, bottom: nil, paddingTop: 0, paddingLeft: 0, paddingRight: 0, paddingBottom: 0)
         
     }
     func setupNavigation() {
         navigationItem.titleView = titleHeader
-        navigationItem.leftBarButtonItem = sortPlaceButton
+        reverseSortingPlaceButton = UIBarButtonItem(image: #imageLiteral(resourceName: "AZ"), style: .plain, target: self, action: #selector(reversedSorting))
+        navigationItem.leftBarButtonItem = reverseSortingPlaceButton
         addNewPlaceButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(goToNewPlace))
         navigationItem.rightBarButtonItem = addNewPlaceButton
+    }
+    
+    private func sorting() {
+        if sortSegmentedControl.selectedSegmentIndex == 0 {
+            places = places.sorted(byKeyPath: "date", ascending: ascendingSorting)
+        } else {
+            places = places.sorted(byKeyPath: "name", ascending: ascendingSorting)
+        }
+        tableView.reloadData()
     }
     
     @objc func goToNewPlace() {
@@ -126,4 +138,19 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     @objc func reloadTableView(){
         self.tableView.reloadData()
     }
+    
+    @objc func sortSelection(_ sender: UISegmentedControl) {
+        sorting()
+    }
+    
+    @objc func reversedSorting(_ sender: Any) {
+        ascendingSorting.toggle()
+        if ascendingSorting {
+            reverseSortingPlaceButton.image = #imageLiteral(resourceName: "AZ")
+        } else {
+            reverseSortingPlaceButton.image = #imageLiteral(resourceName: "ZA")
+        }
+        sorting()
+    }
+    
 }
