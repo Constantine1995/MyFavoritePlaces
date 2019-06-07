@@ -24,6 +24,9 @@
 		0462C88A229EB92C00828498 /* FavoritePlace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462C889229EB92C00828498 /* FavoritePlace.swift */; };
 		0462C88D229EBB2E00828498 /* FavoritePlaceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462C88C229EBB2D00828498 /* FavoritePlaceTableViewCell.swift */; };
 		0462C88F229EBB8000828498 /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462C88E229EBB8000828498 /* UIImageView+Extension.swift */; };
+		04BE03E222AA333C00BA77F7 /* RatingControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BE03E122AA333C00BA77F7 /* RatingControl.swift */; };
+		04BE03E522AA33CB00BA77F7 /* NewPlaceRatingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BE03E422AA33CB00BA77F7 /* NewPlaceRatingTableViewCell.swift */; };
+		04BE03E622AA375700BA77F7 /* NewPlaceRatingTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04BE03E322AA33A800BA77F7 /* NewPlaceRatingTableViewCell.xib */; };
 		04E8011522A134C90005129F /* NewPlaceInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E8011322A134C90005129F /* NewPlaceInfoTableViewCell.swift */; };
 		04E8011622A134C90005129F /* NewPlaceNameTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04E8011422A134C90005129F /* NewPlaceNameTableViewCell.xib */; };
 		04E8011822A14E0B0005129F /* NewPlaceTableViewController+ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E8011722A14E0B0005129F /* NewPlaceTableViewController+ImagePicker.swift */; };
@@ -54,6 +57,9 @@
 		0462C889229EB92C00828498 /* FavoritePlace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritePlace.swift; sourceTree = "<group>"; };
 		0462C88C229EBB2D00828498 /* FavoritePlaceTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritePlaceTableViewCell.swift; sourceTree = "<group>"; };
 		0462C88E229EBB8000828498 /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
+		04BE03E122AA333C00BA77F7 /* RatingControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingControl.swift; sourceTree = "<group>"; };
+		04BE03E322AA33A800BA77F7 /* NewPlaceRatingTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewPlaceRatingTableViewCell.xib; sourceTree = "<group>"; };
+		04BE03E422AA33CB00BA77F7 /* NewPlaceRatingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPlaceRatingTableViewCell.swift; sourceTree = "<group>"; };
 		04E8011322A134C90005129F /* NewPlaceInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPlaceInfoTableViewCell.swift; sourceTree = "<group>"; };
 		04E8011422A134C90005129F /* NewPlaceNameTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewPlaceNameTableViewCell.xib; sourceTree = "<group>"; };
 		04E8011722A14E0B0005129F /* NewPlaceTableViewController+ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NewPlaceTableViewController+ImagePicker.swift"; sourceTree = "<group>"; };
@@ -104,6 +110,8 @@
 				0422B58422A7C27600065C0B /* NewPlaceLocationTableViewCell.xib */,
 				0422B58522A7C2BD00065C0B /* NewPlaceTypeTableViewCell.swift */,
 				0422B58722A7C2CD00065C0B /* NewPlaceTypeTableViewCell.xib */,
+				04BE03E422AA33CB00BA77F7 /* NewPlaceRatingTableViewCell.swift */,
+				04BE03E322AA33A800BA77F7 /* NewPlaceRatingTableViewCell.xib */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -177,6 +185,7 @@
 			children = (
 				045028E322A1344600B08F3C /* Cell */,
 				0462C88C229EBB2D00828498 /* FavoritePlaceTableViewCell.swift */,
+				04BE03E122AA333C00BA77F7 /* RatingControl.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -266,6 +275,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04BE03E622AA375700BA77F7 /* NewPlaceRatingTableViewCell.xib in Resources */,
 				0422B58922A7C67500065C0B /* NewPlaceTypeTableViewCell.xib in Resources */,
 				0422B58822A7C67100065C0B /* NewPlaceLocationTableViewCell.xib in Resources */,
 				04E8011622A134C90005129F /* NewPlaceNameTableViewCell.xib in Resources */,
@@ -335,6 +345,8 @@
 				0422B58B22A7D96000065C0B /* TManager.swift in Sources */,
 				04E8011822A14E0B0005129F /* NewPlaceTableViewController+ImagePicker.swift in Sources */,
 				0462C887229EB71000828498 /* UIView+Extension.swift in Sources */,
+				04BE03E222AA333C00BA77F7 /* RatingControl.swift in Sources */,
+				04BE03E522AA33CB00BA77F7 /* NewPlaceRatingTableViewCell.swift in Sources */,
 				0462C883229EA12900828498 /* MainViewController.swift in Sources */,
 				0462C871229E9E6000828498 /* AppDelegate.swift in Sources */,
 				045028E122A1330B00B08F3C /* NewPlaceImageTableViewCell.swift in Sources */,

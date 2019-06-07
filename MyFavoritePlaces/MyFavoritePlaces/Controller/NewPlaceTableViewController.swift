@@ -15,10 +15,12 @@ class NewPlaceTableViewController: UITableViewController {
     let newPlaceNameCellId = "newPlaceNameCellId"
     let newPlaceLocationCellId = "newPlaceLocationCellId"
     let newPlaceTypeCellId = "newPlaceTypeCellId"
+    let newPlaceRatingCellId = "newPlaceRatingCellId"
     
     let placeCellHeaderData: [PlaceCellHeaderData] = PlaceCellHeaderData.fetchData()
     var imageIsChanged = false
     var currentPlace: FavoritePlace?
+    var countCell = 5
     
     let titleHeader: UILabel = {
         let label = UILabel()
@@ -78,12 +80,14 @@ class NewPlaceTableViewController: UITableViewController {
         let placeNameNib = UINib(nibName:  NewPlaceNameTableViewCell.identifier, bundle: nil)
         let placeLocationNib = UINib(nibName:  NewPlaceLocationTableViewCell.identifier, bundle: nil)
         let placeTypeNib = UINib(nibName:  NewPlaceTypeTableViewCell.identifier, bundle: nil)
-        
+        let placeRatingNib = UINib(nibName:  NewPlaceRatingTableViewCell.identifier, bundle: nil)
+
         tableView.register(placeImageNib, forCellReuseIdentifier: newPlaceImageCellId)
         tableView.register(placeNameNib, forCellReuseIdentifier: newPlaceNameCellId)
         tableView.register(placeTypeNib, forCellReuseIdentifier: newPlaceTypeCellId)
         tableView.register(placeLocationNib, forCellReuseIdentifier: newPlaceLocationCellId)
-        
+        tableView.register(placeRatingNib, forCellReuseIdentifier: newPlaceRatingCellId)
+
         tableView.tableFooterView = UIView()
     }
     
@@ -100,7 +104,7 @@ class NewPlaceTableViewController: UITableViewController {
     
     // MARK: - Table view data source
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return placeCellHeaderData.count+1
+        return countCell
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -143,7 +147,11 @@ class NewPlaceTableViewController: UITableViewController {
             configureCell(cell)
             return cell
         default:
-            return UITableViewCell()
+            let cell = tableView.dequeueReusableCell(withIdentifier: newPlaceRatingCellId, for: indexPath)  as! NewPlaceRatingTableViewCell
+            cell.selectionStyle = .none
+            cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: CGFloat.greatestFiniteMagnitude)
+            cell.directionalLayoutMargins = .zero
+            return cell
         }
     }
     
@@ -181,10 +189,13 @@ class NewPlaceTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.item == 0 {
-            return 250
-        } else {
+        switch indexPath.item {
+        case 0:
+              return 250
+        case 1...3:
             return 75
+        default:
+            return 140
         }
     }
     
