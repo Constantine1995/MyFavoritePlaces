@@ -20,6 +20,7 @@ class NewPlaceTableViewController: UITableViewController {
     let placeCellHeaderData: [PlaceCellHeaderData] = PlaceCellHeaderData.fetchData()
     var imageIsChanged = false
     var currentPlace: FavoritePlace?
+    var ratingDelegate: RatingProtocol?
     var countCell = 5
     
     let titleHeader: UILabel = {
@@ -59,16 +60,21 @@ class NewPlaceTableViewController: UITableViewController {
         return barButton
     }()
     
-    var cancelBarButtonItem:  UIBarButtonItem = {
+    var cancelBarButtonItem: UIBarButtonItem = {
         let barButton = UIBarButtonItem()
         return barButton
     }()
     
-    var undoBarButtonItem:  UIBarButtonItem = {
+    var undoBarButtonItem: UIBarButtonItem = {
         let barButton = UIBarButtonItem()
         return barButton
     }()
     
+    var ratingControl: RatingControl = {
+        let rating = RatingControl()
+        return rating
+    }()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
@@ -76,12 +82,12 @@ class NewPlaceTableViewController: UITableViewController {
     }
     
     func setupTableView() {
-        let placeImageNib = UINib(nibName:  NewPlaceImageTableViewCell.identifier, bundle: nil)
-        let placeNameNib = UINib(nibName:  NewPlaceNameTableViewCell.identifier, bundle: nil)
-        let placeLocationNib = UINib(nibName:  NewPlaceLocationTableViewCell.identifier, bundle: nil)
-        let placeTypeNib = UINib(nibName:  NewPlaceTypeTableViewCell.identifier, bundle: nil)
-        let placeRatingNib = UINib(nibName:  NewPlaceRatingTableViewCell.identifier, bundle: nil)
-
+        let placeImageNib = UINib(nibName: NewPlaceImageTableViewCell.identifier, bundle: nil)
+        let placeNameNib = UINib(nibName: NewPlaceNameTableViewCell.identifier, bundle: nil)
+        let placeLocationNib = UINib(nibName: NewPlaceLocationTableViewCell.identifier, bundle: nil)
+        let placeTypeNib = UINib(nibName: NewPlaceTypeTableViewCell.identifier, bundle: nil)
+        let placeRatingNib = UINib(nibName: NewPlaceRatingTableViewCell.identifier, bundle: nil)
+    
         tableView.register(placeImageNib, forCellReuseIdentifier: newPlaceImageCellId)
         tableView.register(placeNameNib, forCellReuseIdentifier: newPlaceNameCellId)
         tableView.register(placeTypeNib, forCellReuseIdentifier: newPlaceTypeCellId)
@@ -151,6 +157,7 @@ class NewPlaceTableViewController: UITableViewController {
             cell.selectionStyle = .none
             cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: CGFloat.greatestFiniteMagnitude)
             cell.directionalLayoutMargins = .zero
+            ratingControl.rating = cell.ratingControl.rating
             return cell
         }
     }
@@ -231,15 +238,17 @@ class NewPlaceTableViewController: UITableViewController {
         } else {
             image = #imageLiteral(resourceName: "not-pace")
         }
-        
+        let rating = ratingDelegate?.rating
         let imageData = image?.pngData()
-        let newPlace = FavoritePlace(name: placeNameTextField.text!, location: placeLocationTextField.text, type: placeTypeTextField.text, imageData: imageData)
+        let newPlace = FavoritePlace(name: placeNameTextField.text!, location: placeLocationTextField.text, type: placeTypeTextField.text, imageData: imageData, rating: Double(ratingControl.rating))
+
         if currentPlace != nil {
             try! realm.write {
                 currentPlace?.name = newPlace.name
                 currentPlace?.location = newPlace.location
                 currentPlace?.type = newPlace.type
                 currentPlace?.imageData = newPlace.imageData
+                currentPlace?.rating = newPlace.rating
             }
         } else {
             StorageManager.shared.saveObject(newPlace)

@@ -8,7 +8,7 @@
 
 import UIKit
 
-@IBDesignable class RatingControl: UIStackView {
+@IBDesignable class RatingControl: UIStackView, RatingProtocol {
     
     // MARK: - Preperties
     var rating = 0 {
@@ -49,6 +49,7 @@ import UIKit
         } else {
             rating = selectedRating
         }
+        print("rating \(rating)")
     }
     
     // MARK: - Private Methods
@@ -71,7 +72,7 @@ import UIKit
             button.setImage(filledStar, for: .selected)
             button.setImage(highlithedStar, for: .highlighted)
             button.setImage(highlithedStar, for: [.highlighted, .selected])
-
+            
             button.setSize(width: startSize.width, height: startSize.height)
             button.addTarget(self, action: #selector(ratingButtonAction), for: .touchUpInside)
             addArrangedSubview(button)

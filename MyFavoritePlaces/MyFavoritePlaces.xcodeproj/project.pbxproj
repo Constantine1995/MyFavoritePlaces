@@ -11,7 +11,6 @@
 		0422B58622A7C2BD00065C0B /* NewPlaceTypeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0422B58522A7C2BD00065C0B /* NewPlaceTypeTableViewCell.swift */; };
 		0422B58822A7C67100065C0B /* NewPlaceLocationTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0422B58422A7C27600065C0B /* NewPlaceLocationTableViewCell.xib */; };
 		0422B58922A7C67500065C0B /* NewPlaceTypeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0422B58722A7C2CD00065C0B /* NewPlaceTypeTableViewCell.xib */; };
-		0422B58B22A7D96000065C0B /* TManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0422B58A22A7D95F00065C0B /* TManager.swift */; };
 		045028BC229FB11500B08F3C /* NewPlaceTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045028BB229FB11500B08F3C /* NewPlaceTableViewController.swift */; };
 		045028DA22A018D600B08F3C /* NewPlaceViewController+textFieldShouldReturn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045028D922A018D600B08F3C /* NewPlaceViewController+textFieldShouldReturn.swift */; };
 		045028E122A1330B00B08F3C /* NewPlaceImageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045028DF22A1330B00B08F3C /* NewPlaceImageTableViewCell.swift */; };
@@ -27,6 +26,7 @@
 		04BE03E222AA333C00BA77F7 /* RatingControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BE03E122AA333C00BA77F7 /* RatingControl.swift */; };
 		04BE03E522AA33CB00BA77F7 /* NewPlaceRatingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BE03E422AA33CB00BA77F7 /* NewPlaceRatingTableViewCell.swift */; };
 		04BE03E622AA375700BA77F7 /* NewPlaceRatingTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04BE03E322AA33A800BA77F7 /* NewPlaceRatingTableViewCell.xib */; };
+		04BE03EA22AA979300BA77F7 /* RatingProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BE03E922AA979300BA77F7 /* RatingProtocol.swift */; };
 		04E8011522A134C90005129F /* NewPlaceInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E8011322A134C90005129F /* NewPlaceInfoTableViewCell.swift */; };
 		04E8011622A134C90005129F /* NewPlaceNameTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04E8011422A134C90005129F /* NewPlaceNameTableViewCell.xib */; };
 		04E8011822A14E0B0005129F /* NewPlaceTableViewController+ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E8011722A14E0B0005129F /* NewPlaceTableViewController+ImagePicker.swift */; };
@@ -42,7 +42,6 @@
 		0422B58422A7C27600065C0B /* NewPlaceLocationTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewPlaceLocationTableViewCell.xib; sourceTree = "<group>"; };
 		0422B58522A7C2BD00065C0B /* NewPlaceTypeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPlaceTypeTableViewCell.swift; sourceTree = "<group>"; };
 		0422B58722A7C2CD00065C0B /* NewPlaceTypeTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewPlaceTypeTableViewCell.xib; sourceTree = "<group>"; };
-		0422B58A22A7D95F00065C0B /* TManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TManager.swift; sourceTree = "<group>"; };
 		045028BB229FB11500B08F3C /* NewPlaceTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPlaceTableViewController.swift; sourceTree = "<group>"; };
 		045028D922A018D600B08F3C /* NewPlaceViewController+textFieldShouldReturn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NewPlaceViewController+textFieldShouldReturn.swift"; sourceTree = "<group>"; };
 		045028DF22A1330B00B08F3C /* NewPlaceImageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPlaceImageTableViewCell.swift; sourceTree = "<group>"; };
@@ -60,6 +59,7 @@
 		04BE03E122AA333C00BA77F7 /* RatingControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingControl.swift; sourceTree = "<group>"; };
 		04BE03E322AA33A800BA77F7 /* NewPlaceRatingTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewPlaceRatingTableViewCell.xib; sourceTree = "<group>"; };
 		04BE03E422AA33CB00BA77F7 /* NewPlaceRatingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPlaceRatingTableViewCell.swift; sourceTree = "<group>"; };
+		04BE03E922AA979300BA77F7 /* RatingProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingProtocol.swift; sourceTree = "<group>"; };
 		04E8011322A134C90005129F /* NewPlaceInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPlaceInfoTableViewCell.swift; sourceTree = "<group>"; };
 		04E8011422A134C90005129F /* NewPlaceNameTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewPlaceNameTableViewCell.xib; sourceTree = "<group>"; };
 		04E8011722A14E0B0005129F /* NewPlaceTableViewController+ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NewPlaceTableViewController+ImagePicker.swift"; sourceTree = "<group>"; };
@@ -119,6 +119,7 @@
 		0462C864229E9E6000828498 = {
 			isa = PBXGroup;
 			children = (
+				04BE03E922AA979300BA77F7 /* RatingProtocol.swift */,
 				0462C86F229E9E6000828498 /* MyFavoritePlaces */,
 				0462C86E229E9E6000828498 /* Products */,
 				FCE5A425BAF445287FAFADFA /* Pods */,
@@ -144,7 +145,6 @@
 				045028D822A00E1B00B08F3C /* Controller */,
 				0462C884229EA1AD00828498 /* SupportingFiles */,
 				0462C879229E9E6100828498 /* LaunchScreen.storyboard */,
-				0422B58A22A7D95F00065C0B /* TManager.swift */,
 			);
 			path = MyFavoritePlaces;
 			sourceTree = "<group>";
@@ -342,7 +342,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				0462C88F229EBB8000828498 /* UIImageView+Extension.swift in Sources */,
-				0422B58B22A7D96000065C0B /* TManager.swift in Sources */,
 				04E8011822A14E0B0005129F /* NewPlaceTableViewController+ImagePicker.swift in Sources */,
 				0462C887229EB71000828498 /* UIView+Extension.swift in Sources */,
 				04BE03E222AA333C00BA77F7 /* RatingControl.swift in Sources */,
@@ -359,6 +358,7 @@
 				0462C88A229EB92C00828498 /* FavoritePlace.swift in Sources */,
 				045028BC229FB11500B08F3C /* NewPlaceTableViewController.swift in Sources */,
 				0422B58622A7C2BD00065C0B /* NewPlaceTypeTableViewCell.swift in Sources */,
+				04BE03EA22AA979300BA77F7 /* RatingProtocol.swift in Sources */,
 				04F882BE22A50C9800D3BCCD /* StorageManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
