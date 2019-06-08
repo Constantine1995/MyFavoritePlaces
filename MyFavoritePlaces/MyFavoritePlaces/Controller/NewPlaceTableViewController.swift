@@ -9,7 +9,9 @@
 import UIKit
 import RealmSwift
 
-class NewPlaceTableViewController: UITableViewController {
+class NewPlaceTableViewController: UITableViewController, RatingProtocol {
+
+    var currentRating = 0
     
     let newPlaceImageCellId = "newPlaceImageCellId"
     let newPlaceNameCellId = "newPlaceNameCellId"
@@ -20,7 +22,8 @@ class NewPlaceTableViewController: UITableViewController {
     let placeCellHeaderData: [PlaceCellHeaderData] = PlaceCellHeaderData.fetchData()
     var imageIsChanged = false
     var currentPlace: FavoritePlace?
-    var ratingDelegate: RatingProtocol?
+    var ratingControl: RatingControl?
+    var ratingCell: NewPlaceRatingTableViewCell?
     var countCell = 5
     
     let titleHeader: UILabel = {
@@ -70,15 +73,16 @@ class NewPlaceTableViewController: UITableViewController {
         return barButton
     }()
     
-    var ratingControl: RatingControl = {
-        let rating = RatingControl()
-        return rating
-    }()
-
+//    var ratingControl: RatingControl = {
+//        let rating = RatingControl()
+//        return rating
+//    }()
+//
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
         setupNavigation()
+        ratingControl?.delegate = self
     }
     
     func setupTableView() {
@@ -157,7 +161,7 @@ class NewPlaceTableViewController: UITableViewController {
             cell.selectionStyle = .none
             cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: CGFloat.greatestFiniteMagnitude)
             cell.directionalLayoutMargins = .zero
-            ratingControl.rating = cell.ratingControl.rating
+//            ratingControl.rating = cell.ratingControl.rating
             return cell
         }
     }
@@ -238,10 +242,10 @@ class NewPlaceTableViewController: UITableViewController {
         } else {
             image = #imageLiteral(resourceName: "not-pace")
         }
-        let rating = ratingDelegate?.rating
+//        let rating = ratingDelegate?.rating
         let imageData = image?.pngData()
-        let newPlace = FavoritePlace(name: placeNameTextField.text!, location: placeLocationTextField.text, type: placeTypeTextField.text, imageData: imageData, rating: Double(ratingControl.rating))
-
+        let newPlace = FavoritePlace(name: placeNameTextField.text!, location: placeLocationTextField.text, type: placeTypeTextField.text, imageData: imageData, rating: Double(currentRating))
+        print("rating in model \(currentRating)")
         if currentPlace != nil {
             try! realm.write {
                 currentPlace?.name = newPlace.name

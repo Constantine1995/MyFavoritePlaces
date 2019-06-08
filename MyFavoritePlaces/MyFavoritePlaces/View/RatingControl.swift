@@ -8,8 +8,10 @@
 
 import UIKit
 
-@IBDesignable class RatingControl: UIStackView, RatingProtocol {
+@IBDesignable class RatingControl: UIStackView {
     
+    var delegate: RatingProtocol?
+
     // MARK: - Preperties
     var rating = 0 {
         didSet {
@@ -32,11 +34,17 @@ import UIKit
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()
+//        newPlace?.delegate = self
     }
     
     required init(coder: NSCoder) {
         super.init(coder: coder)
         setupView()
+    }
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
     }
     
     // MARK: - Button Action
@@ -50,6 +58,8 @@ import UIKit
             rating = selectedRating
         }
         print("rating \(rating)")
+        delegate?.currentRating = rating
+        print("currentRating \(delegate?.currentRating)")
     }
     
     // MARK: - Private Methods
