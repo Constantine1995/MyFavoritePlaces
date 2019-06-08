@@ -119,7 +119,6 @@
 		0462C864229E9E6000828498 = {
 			isa = PBXGroup;
 			children = (
-				04BE03E922AA979300BA77F7 /* RatingProtocol.swift */,
 				0462C86F229E9E6000828498 /* MyFavoritePlaces */,
 				0462C86E229E9E6000828498 /* Products */,
 				FCE5A425BAF445287FAFADFA /* Pods */,
@@ -138,6 +137,7 @@
 		0462C86F229E9E6000828498 /* MyFavoritePlaces */ = {
 			isa = PBXGroup;
 			children = (
+				04BE03EC22AC0E5700BA77F7 /* Protocol */,
 				04F882BC22A50C8900D3BCCD /* Manager */,
 				0462C88B229EBB0700828498 /* View */,
 				0462C888229EB7E300828498 /* Model */,
@@ -188,6 +188,14 @@
 				04BE03E122AA333C00BA77F7 /* RatingControl.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		04BE03EC22AC0E5700BA77F7 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				04BE03E922AA979300BA77F7 /* RatingProtocol.swift */,
+			);
+			path = Protocol;
 			sourceTree = "<group>";
 		};
 		04F882BC22A50C8900D3BCCD /* Manager */ = {

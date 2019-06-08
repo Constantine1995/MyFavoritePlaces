@@ -56,7 +56,7 @@ import UIKit
         } else {
             rating = selectedRating
         }
-        delegate?.currentRating = rating
+        delegate?.rating = rating
     }
     
     // MARK: - Private Methods

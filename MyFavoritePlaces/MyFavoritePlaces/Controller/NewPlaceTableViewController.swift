@@ -10,8 +10,6 @@ import UIKit
 import RealmSwift
 
 class NewPlaceTableViewController: UITableViewController, RatingProtocol {
-
-    var currentRating = 0
     
     let newPlaceImageCellId = "newPlaceImageCellId"
     let newPlaceNameCellId = "newPlaceNameCellId"
@@ -21,9 +19,9 @@ class NewPlaceTableViewController: UITableViewController, RatingProtocol {
     
     let placeCellHeaderData: [PlaceCellHeaderData] = PlaceCellHeaderData.fetchData()
     var imageIsChanged = false
-    var currentPlace: FavoritePlace?
-    var ratingCell: NewPlaceRatingTableViewCell?
+    var currentPlace: FavoritePlace!
     var countCell = 5
+    var rating = 0
     
     let titleHeader: UILabel = {
         let label = UILabel()
@@ -151,10 +149,11 @@ class NewPlaceTableViewController: UITableViewController, RatingProtocol {
             return cell
         default:
             let cell = tableView.dequeueReusableCell(withIdentifier: newPlaceRatingCellId, for: indexPath)  as! NewPlaceRatingTableViewCell
+            cell.ratingControl.delegate = self
+            cell.ratingControl.rating = Int(currentPlace.rating)
             cell.selectionStyle = .none
             cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: CGFloat.greatestFiniteMagnitude)
             cell.directionalLayoutMargins = .zero
-            cell.ratingControl.delegate = self
             return cell
         }
     }
@@ -237,8 +236,7 @@ class NewPlaceTableViewController: UITableViewController, RatingProtocol {
         }
 //        let rating = ratingDelegate?.rating
         let imageData = image?.pngData()
-        let newPlace = FavoritePlace(name: placeNameTextField.text!, location: placeLocationTextField.text, type: placeTypeTextField.text, imageData: imageData, rating: Double(currentRating))
-        print("rating in model \(currentRating)")
+        let newPlace = FavoritePlace(name: placeNameTextField.text!, location: placeLocationTextField.text, type: placeTypeTextField.text, imageData: imageData, rating: Double(rating))
         if currentPlace != nil {
             try! realm.write {
                 currentPlace?.name = newPlace.name

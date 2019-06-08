@@ -8,6 +8,5 @@
 
 import Foundation
 protocol RatingProtocol: class {
-    var currentRating: Int { get set }
-//    func getRating(rating: Int)
+    var rating: Int { get set }
 }
