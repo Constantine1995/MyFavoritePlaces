@@ -34,7 +34,6 @@ import UIKit
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()
-//        newPlace?.delegate = self
     }
     
     required init(coder: NSCoder) {
@@ -57,9 +56,7 @@ import UIKit
         } else {
             rating = selectedRating
         }
-        print("rating \(rating)")
         delegate?.currentRating = rating
-        print("currentRating \(delegate?.currentRating)")
     }
     
     // MARK: - Private Methods

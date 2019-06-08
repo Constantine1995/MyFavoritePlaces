@@ -22,7 +22,6 @@ class NewPlaceTableViewController: UITableViewController, RatingProtocol {
     let placeCellHeaderData: [PlaceCellHeaderData] = PlaceCellHeaderData.fetchData()
     var imageIsChanged = false
     var currentPlace: FavoritePlace?
-    var ratingControl: RatingControl?
     var ratingCell: NewPlaceRatingTableViewCell?
     var countCell = 5
     
@@ -73,16 +72,10 @@ class NewPlaceTableViewController: UITableViewController, RatingProtocol {
         return barButton
     }()
     
-//    var ratingControl: RatingControl = {
-//        let rating = RatingControl()
-//        return rating
-//    }()
-//
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
         setupNavigation()
-        ratingControl?.delegate = self
     }
     
     func setupTableView() {
@@ -161,7 +154,7 @@ class NewPlaceTableViewController: UITableViewController, RatingProtocol {
             cell.selectionStyle = .none
             cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: CGFloat.greatestFiniteMagnitude)
             cell.directionalLayoutMargins = .zero
-//            ratingControl.rating = cell.ratingControl.rating
+            cell.ratingControl.delegate = self
             return cell
         }
     }
