@@ -122,22 +122,20 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         if isFiltering {
             return filterPlaces.count
         }
-        return places.isEmpty ? 0 : places.count
+        return places.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: favoritePlaceCellId, for: indexPath) as! FavoritePlaceTableViewCell
-        var place = FavoritePlace()
-        if isFiltering {
-            place = filterPlaces[indexPath.item]
-        } else {
-            place = places[indexPath.item]
-        }
+        
+        let place = isFiltering ? filterPlaces[indexPath.item] : places[indexPath.item]
+        
         cell.nameLabel.text = place.name
         cell.locationLabel.text = place.location
         cell.typeLabel.text = place.type
         cell.placeImageView.image = UIImage(data: place.imageData!)
         cell.selectionStyle = .none
+        cell.ratingCosmosView.rating = place.rating
         return cell
     }
     
@@ -145,12 +143,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         let newPlaceTableViewController = NewPlaceTableViewController()
         let newPlaceNavigationController = UINavigationController(rootViewController: newPlaceTableViewController)
         newPlaceNavigationController.modalTransitionStyle = .flipHorizontal
-        let place: FavoritePlace
-        if isFiltering {
-            place = filterPlaces[indexPath.item]
-        } else {
-            place = places[indexPath.item]
-        }
+        let place = isFiltering ? filterPlaces[indexPath.item] : places[indexPath.item]
         newPlaceTableViewController.currentPlace = place
         navigationController?.present(newPlaceNavigationController, animated: true)
     }
@@ -182,5 +175,4 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
         sorting()
     }
-    
 }

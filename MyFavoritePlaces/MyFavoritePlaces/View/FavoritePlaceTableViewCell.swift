@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Cosmos
 
 class FavoritePlaceTableViewCell: UITableViewCell {
     
@@ -25,7 +26,6 @@ class FavoritePlaceTableViewCell: UITableViewCell {
         let image = UIImageView()
         image.contentMode = .scaleAspectFill
         image.imageViewCorners()
-        
         image.clipsToBounds = true
         return image
     }()
@@ -41,7 +41,7 @@ class FavoritePlaceTableViewCell: UITableViewCell {
     
     let locationLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "Helvetica", size: 18)
+        label.font = UIFont(name: "Helvetica", size: 15)
         label.textColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
         label.textAlignment = .left
         
@@ -50,7 +50,7 @@ class FavoritePlaceTableViewCell: UITableViewCell {
     
     let typeLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "Helvetica", size: 18)
+        label.font = UIFont(name: "Helvetica", size: 15)
         label.textColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
         label.textAlignment = .left
         
@@ -66,6 +66,15 @@ class FavoritePlaceTableViewCell: UITableViewCell {
         return label
     }()
     
+    let ratingCosmosView: CosmosView = {
+        let view = CosmosView()
+        view.settings.filledImage = #imageLiteral(resourceName: "filledStar")
+        view.settings.emptyImage = #imageLiteral(resourceName: "emptyStar")
+        view.settings.starSize = 15
+        view.settings.updateOnTouch  = false
+        return view
+    }()
+    
     lazy var stackView: UIStackView = {
         let sv = UIStackView(arrangedSubviews: [nameLabel, locationLabel, typeLabel])
         sv.translatesAutoresizingMaskIntoConstraints = false
@@ -77,7 +86,6 @@ class FavoritePlaceTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
         setupView()
     }
     
@@ -85,6 +93,7 @@ class FavoritePlaceTableViewCell: UITableViewCell {
         addSubview(placeCellView)
         addSubview(placeImageView)
         addSubview(stackView)
+        addSubview(ratingCosmosView)
         
         setupConstraints()
     }
@@ -97,7 +106,10 @@ class FavoritePlaceTableViewCell: UITableViewCell {
         
         placeImageView.setCenterYAnchor(self)
         
-        stackView.setAnchor(top: placeCellView.topAnchor, left: placeImageView.rightAnchor, right: placeCellView.rightAnchor, bottom: placeCellView.bottomAnchor, paddingTop: 15, paddingLeft: 15, paddingRight: -15, paddingBottom: -15)
+        stackView.setAnchor(top: placeCellView.topAnchor, left: placeImageView.rightAnchor, right: nil, bottom: placeCellView.bottomAnchor, paddingTop: 15, paddingLeft: 15, paddingRight: 0, paddingBottom: -15)
+        
+        ratingCosmosView.setAnchor(top: nil, left: nil, right: placeCellView.rightAnchor, bottom: nil, paddingTop: 0, paddingLeft: 0, paddingRight: -10, paddingBottom: 0)
+        ratingCosmosView.setCenterYAnchor(self)
     }
     
     required init?(coder aDecoder: NSCoder) {
