@@ -68,7 +68,7 @@ class FavoritePlaceTableViewCell: UITableViewCell {
     
     let ratingCosmosView: CosmosView = {
         let view = CosmosView()
-        view.settings.filledImage = #imageLiteral(resourceName: "filledStar")
+        view.settings.filledImage = #imageLiteral(resourceName: "highlightedStar")
         view.settings.emptyImage = #imageLiteral(resourceName: "emptyStar")
         view.settings.starSize = 15
         view.settings.updateOnTouch  = false
@@ -108,8 +108,8 @@ class FavoritePlaceTableViewCell: UITableViewCell {
         
         stackView.setAnchor(top: placeCellView.topAnchor, left: placeImageView.rightAnchor, right: nil, bottom: placeCellView.bottomAnchor, paddingTop: 15, paddingLeft: 15, paddingRight: 0, paddingBottom: -15)
         
-        ratingCosmosView.setAnchor(top: nil, left: nil, right: placeCellView.rightAnchor, bottom: nil, paddingTop: 0, paddingLeft: 0, paddingRight: -10, paddingBottom: 0)
-        ratingCosmosView.setCenterYAnchor(self)
+        ratingCosmosView.setAnchor(top: nil, left: nil, right: placeCellView.rightAnchor, bottom: placeCellView.bottomAnchor, paddingTop: 0, paddingLeft: 0, paddingRight: -10, paddingBottom: -15)
+//        ratingCosmosView.setCenterYAnchor(self)
     }
     
     required init?(coder aDecoder: NSCoder) {
