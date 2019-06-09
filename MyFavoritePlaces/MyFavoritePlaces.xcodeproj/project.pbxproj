@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		041C1C4E22AD2020007C7DA6 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041C1C4D22AD2020007C7DA6 /* MapViewController.swift */; };
 		0422B58222A7C24100065C0B /* NewPlaceLocationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0422B58022A7C24100065C0B /* NewPlaceLocationTableViewCell.swift */; };
 		0422B58622A7C2BD00065C0B /* NewPlaceTypeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0422B58522A7C2BD00065C0B /* NewPlaceTypeTableViewCell.swift */; };
 		0422B58822A7C67100065C0B /* NewPlaceLocationTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0422B58422A7C27600065C0B /* NewPlaceLocationTableViewCell.xib */; };
@@ -38,6 +39,7 @@
 
 /* Begin PBXFileReference section */
 		03095AC52EFAC971CF2A3EF6 /* Pods_MyFavoritePlaces.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyFavoritePlaces.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		041C1C4D22AD2020007C7DA6 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		0422B58022A7C24100065C0B /* NewPlaceLocationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPlaceLocationTableViewCell.swift; sourceTree = "<group>"; };
 		0422B58422A7C27600065C0B /* NewPlaceLocationTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewPlaceLocationTableViewCell.xib; sourceTree = "<group>"; };
 		0422B58522A7C2BD00065C0B /* NewPlaceTypeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPlaceTypeTableViewCell.swift; sourceTree = "<group>"; };
@@ -96,6 +98,7 @@
 			children = (
 				0462C882229EA12900828498 /* MainViewController.swift */,
 				045028BB229FB11500B08F3C /* NewPlaceTableViewController.swift */,
+				041C1C4D22AD2020007C7DA6 /* MapViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -354,6 +357,7 @@
 				0462C88F229EBB8000828498 /* UIImageView+Extension.swift in Sources */,
 				04E8011822A14E0B0005129F /* NewPlaceTableViewController+ImagePicker.swift in Sources */,
 				0462C887229EB71000828498 /* UIView+Extension.swift in Sources */,
+				041C1C4E22AD2020007C7DA6 /* MapViewController.swift in Sources */,
 				04BE03E222AA333C00BA77F7 /* RatingControl.swift in Sources */,
 				04BE03E522AA33CB00BA77F7 /* NewPlaceRatingTableViewCell.swift in Sources */,
 				0462C883229EA12900828498 /* MainViewController.swift in Sources */,

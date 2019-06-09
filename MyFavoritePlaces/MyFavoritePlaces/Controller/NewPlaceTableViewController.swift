@@ -70,10 +70,16 @@ class NewPlaceTableViewController: UITableViewController, RatingProtocol {
         return barButton
     }()
     
+//    let mapButton: UIButton = {
+//        let button = UIButton()
+//        return button
+//    }()
+//    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
         setupNavigation()
+//        setupView()
     }
     
     func setupTableView() {
@@ -103,6 +109,11 @@ class NewPlaceTableViewController: UITableViewController, RatingProtocol {
         navigationItem.rightBarButtonItem = saveBarButtonItem
     }
     
+//    func setupView() {
+//        self.addSubview(mapButton)
+//        self.mapButton.setAnchor(top: nil, left: nil, right: view.rightAnchor, bottom: view.bottomAnchor, paddingTop: 0, paddingLeft: 0, paddingRight: 0, paddingBottom: 0, width: 50, height: 50)
+//    }
+    
     // MARK: - Table view data source
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return countCell
@@ -118,6 +129,7 @@ class NewPlaceTableViewController: UITableViewController, RatingProtocol {
             setupEditScreen(placeImage: placeImageView, name: nil, location: nil, type: nil)
             cell.placeImageView.image = placeImageView.image
             configureCell(cell)
+            cell.mapButton.addTarget(self, action: #selector(mapAction), for: .touchUpInside)
             return cell
             
         case 1:
@@ -258,6 +270,15 @@ class NewPlaceTableViewController: UITableViewController, RatingProtocol {
         savePlace()
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "reloadBeforeSaveToRealm"), object: nil)
         dismiss(animated: true, completion: nil)
+    }
+    
+    @objc private func mapAction() {
+//        let mapViewController = UINavigationController(rootViewController: MapViewController())
+//        mapViewController.modalTransitionStyle = .flipHorizontal
+//        navigationController?.present(mapViewController, animated: true)
+        let mapViewController = MapViewController()
+        mapViewController.modalTransitionStyle = .flipHorizontal
+        present(mapViewController, animated: true)
     }
     
     @objc private func textFieldChanged() {

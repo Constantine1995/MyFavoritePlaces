@@ -13,8 +13,8 @@ class NewPlaceImageTableViewCell: UITableViewCell {
     class var identifier: String {
         return String(describing: self)
     }
-    
     @IBOutlet weak var placeImageView: UIImageView!
+    @IBOutlet weak var mapButton: UIButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()

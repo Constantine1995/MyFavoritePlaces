@@ -23,18 +23,32 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="249.5"/>
                         <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </imageView>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W0L-aT-Iqe">
+                        <rect key="frame" x="317" y="191.5" width="50" height="50"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="50" id="KZL-5r-25v"/>
+                            <constraint firstAttribute="width" constant="50" id="Xz5-IR-Ehh"/>
+                        </constraints>
+                        <state key="normal" image="map"/>
+                    </button>
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="trailing" secondItem="iwF-zF-FdN" secondAttribute="trailing" id="HDu-1H-ufh"/>
+                    <constraint firstAttribute="bottom" secondItem="W0L-aT-Iqe" secondAttribute="bottom" constant="8" id="JUQ-BT-mzP"/>
                     <constraint firstItem="iwF-zF-FdN" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="Zcf-i8-9Fd"/>
                     <constraint firstItem="iwF-zF-FdN" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="aep-t2-Lth"/>
                     <constraint firstAttribute="bottom" secondItem="iwF-zF-FdN" secondAttribute="bottom" id="yhd-kn-qsb"/>
+                    <constraint firstAttribute="trailing" secondItem="W0L-aT-Iqe" secondAttribute="trailing" constant="8" id="ykM-J5-znp"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
+                <outlet property="mapButton" destination="W0L-aT-Iqe" id="rvJ-wx-Ytt"/>
                 <outlet property="placeImageView" destination="iwF-zF-FdN" id="Bcm-lK-BsS"/>
             </connections>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="map" width="256" height="256"/>
+    </resources>
 </document>
