@@ -246,7 +246,6 @@ class NewPlaceTableViewController: UITableViewController, RatingProtocol {
         } else {
             image = #imageLiteral(resourceName: "not-pace")
         }
-//        let rating = ratingDelegate?.rating
         let imageData = image?.pngData()
         let newPlace = FavoritePlace(name: placeNameTextField.text!, location: placeLocationTextField.text, type: placeTypeTextField.text, imageData: imageData, rating: Double(rating))
         if currentPlace != nil {
@@ -273,11 +272,9 @@ class NewPlaceTableViewController: UITableViewController, RatingProtocol {
     }
     
     @objc private func mapAction() {
-//        let mapViewController = UINavigationController(rootViewController: MapViewController())
-//        mapViewController.modalTransitionStyle = .flipHorizontal
-//        navigationController?.present(mapViewController, animated: true)
         let mapViewController = MapViewController()
         mapViewController.modalTransitionStyle = .flipHorizontal
+        mapViewController.place = currentPlace
         present(mapViewController, animated: true)
     }
     
