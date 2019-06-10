@@ -145,6 +145,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         newPlaceNavigationController.modalTransitionStyle = .flipHorizontal
         let place = isFiltering ? filterPlaces[indexPath.item] : places[indexPath.item]
         newPlaceTableViewController.currentPlace = place
+        newPlaceTableViewController.isTransitionWithMainScreenForNewPlace = true
         navigationController?.present(newPlaceNavigationController, animated: true)
     }
     

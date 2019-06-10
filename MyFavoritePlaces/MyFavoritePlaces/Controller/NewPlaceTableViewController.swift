@@ -19,6 +19,7 @@ class NewPlaceTableViewController: UITableViewController, RatingProtocol {
     
     let placeCellHeaderData: [PlaceCellHeaderData] = PlaceCellHeaderData.fetchData()
     var imageIsChanged = false
+    var isTransitionWithMainScreenForNewPlace = false
     var currentPlace: FavoritePlace!
     var countCell = 5
     var rating = 0
@@ -70,16 +71,10 @@ class NewPlaceTableViewController: UITableViewController, RatingProtocol {
         return barButton
     }()
     
-//    let mapButton: UIButton = {
-//        let button = UIButton()
-//        return button
-//    }()
-//    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
         setupNavigation()
-//        setupView()
     }
     
     func setupTableView() {
@@ -108,11 +103,6 @@ class NewPlaceTableViewController: UITableViewController, RatingProtocol {
         saveBarButtonItem.isEnabled = false
         navigationItem.rightBarButtonItem = saveBarButtonItem
     }
-    
-//    func setupView() {
-//        self.addSubview(mapButton)
-//        self.mapButton.setAnchor(top: nil, left: nil, right: view.rightAnchor, bottom: view.bottomAnchor, paddingTop: 0, paddingLeft: 0, paddingRight: 0, paddingBottom: 0, width: 50, height: 50)
-//    }
     
     // MARK: - Table view data source
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -162,9 +152,11 @@ class NewPlaceTableViewController: UITableViewController, RatingProtocol {
         default:
             let cell = tableView.dequeueReusableCell(withIdentifier: newPlaceRatingCellId, for: indexPath)  as! NewPlaceRatingTableViewCell
             cell.ratingControl.delegate = self
-            cell.ratingControl.rating = Int(currentPlace.rating)
+            if (isTransitionWithMainScreenForNewPlace) {
+                cell.ratingControl.rating = Int(currentPlace.rating)
+            }
             cell.selectionStyle = .none
-            cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: CGFloat.greatestFiniteMagnitude)
+            cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
             cell.directionalLayoutMargins = .zero
             return cell
         }
@@ -239,13 +231,7 @@ class NewPlaceTableViewController: UITableViewController, RatingProtocol {
     }
     
     func savePlace() {
-        var image: UIImage?
-        
-        if imageIsChanged {
-            image = placeImageView.image
-        } else {
-            image = #imageLiteral(resourceName: "not-pace")
-        }
+        let image = imageIsChanged ? placeImageView.image : #imageLiteral(resourceName: "not-pace")
         let imageData = image?.pngData()
         let newPlace = FavoritePlace(name: placeNameTextField.text!, location: placeLocationTextField.text, type: placeTypeTextField.text, imageData: imageData, rating: Double(rating))
         if currentPlace != nil {
@@ -262,6 +248,7 @@ class NewPlaceTableViewController: UITableViewController, RatingProtocol {
     }
     
     @objc private func cancelAction(_ : UIButton) {
+        isTransitionWithMainScreenForNewPlace = false
         dismiss(animated: true, completion: nil)
     }
     
@@ -273,8 +260,12 @@ class NewPlaceTableViewController: UITableViewController, RatingProtocol {
     
     @objc private func mapAction() {
         let mapViewController = MapViewController()
-        mapViewController.modalTransitionStyle = .flipHorizontal
-        mapViewController.place = currentPlace
+        mapViewController.modalTransitionStyle = .coverVertical
+        mapViewController.place.name = placeNameTextField.text!
+        mapViewController.place.location = placeLocationTextField.text
+        mapViewController.place.type = placeTypeTextField.text
+        mapViewController.place.imageData = placeImageView.image?.pngData()
+        
         present(mapViewController, animated: true)
     }
     

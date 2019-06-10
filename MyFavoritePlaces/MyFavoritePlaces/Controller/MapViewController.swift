@@ -11,7 +11,7 @@ import MapKit
 
 class MapViewController: UIViewController {
 
-    var place: FavoritePlace!
+    var place = FavoritePlace()
     let placeMKMapView = MKMapView(frame: .zero)
     
     class var identifier: String {
