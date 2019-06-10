@@ -15,7 +15,7 @@ class MapViewController: UIViewController {
     class var identifier: String {
         return String(describing: self)
     }
-    
+    var delegate: MapViewControllerDelegate?
     var place = FavoritePlace()
     let placeMKMapView = MKMapView(frame: .zero)
     let locationManager = CLLocationManager()
@@ -51,11 +51,9 @@ class MapViewController: UIViewController {
     let currentAddressLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont(name: "Helvetica", size: 30)
-        label.text = "Currrent Adress"
         label.textAlignment = .center
         return label
     }()
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,7 +68,7 @@ class MapViewController: UIViewController {
         view.frame.size = UIScreen.main.bounds.size
     }
     
-    func setupView() {
+    private func setupView() {
         view.addSubview(closeButton)
         view.addSubview(userLocationButton)
         view.addSubview(mapPinImageView)
@@ -89,6 +87,7 @@ class MapViewController: UIViewController {
         
         currentAddressLabel.setAnchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, right: view.rightAnchor, bottom: nil, paddingTop: 100, paddingLeft: 8, paddingRight: -8, paddingBottom: 0)
         
+        doneButton.addTarget(self, action: #selector(doneAction), for: .touchUpInside)
         doneButton.setAnchor(top: nil, left: nil, right: nil, bottom: view.bottomAnchor, paddingTop: 0, paddingLeft: 0, paddingRight: 0, paddingBottom: -80)
         doneButton.setCenterXAnchor(view)
     }
@@ -144,6 +143,13 @@ class MapViewController: UIViewController {
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
     }
     
+    private func showUserLocation() {
+        if let location = locationManager.location?.coordinate {
+            let region = MKCoordinateRegion(center: location, latitudinalMeters: regionInMeters, longitudinalMeters: regionInMeters)
+            placeMKMapView.setRegion(region, animated: true)
+        }
+    }
+    
     internal func checkLocationAuthorization() {
         switch CLLocationManager.authorizationStatus() {
         case .authorizedWhenInUse:
@@ -168,18 +174,17 @@ class MapViewController: UIViewController {
         }
     }
     
+    internal func getCenterLocation(for mapView: MKMapView) -> CLLocation {
+        let latitude = mapView.centerCoordinate.latitude
+        let longitude =  mapView.centerCoordinate.longitude
+        return CLLocation(latitude: latitude, longitude: longitude)
+    }
+    
     private func showAlert(title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "OK", style: .default)
         alert.addAction(okAction)
         present(alert, animated: true)
-    }
-    
-    private func showUserLocation() {
-        if let location = locationManager.location?.coordinate {
-            let region = MKCoordinateRegion(center: location, latitudinalMeters: regionInMeters, longitudinalMeters: regionInMeters)
-            placeMKMapView.setRegion(region, animated: true)
-        }
     }
     
     @objc func closeArction() {
@@ -188,5 +193,10 @@ class MapViewController: UIViewController {
     
     @objc func locationAction() {
         showUserLocation()
+    }
+    
+    @objc func doneAction() {
+        delegate?.getAddress(currentAddressLabel.text)
+        dismiss(animated: true)
     }
 }

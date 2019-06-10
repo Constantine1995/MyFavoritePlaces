@@ -9,7 +9,7 @@
 import UIKit
 import RealmSwift
 
-class NewPlaceTableViewController: UITableViewController, RatingProtocol {
+class NewPlaceTableViewController: UITableViewController, RatingProtocol, MapViewControllerDelegate {
     
     let newPlaceImageCellId = "newPlaceImageCellId"
     let newPlaceNameCellId = "newPlaceNameCellId"
@@ -239,6 +239,7 @@ class NewPlaceTableViewController: UITableViewController, RatingProtocol {
         mapViewController.place.location = placeLocationTextField.text
         mapViewController.place.type = placeTypeTextField.text
         mapViewController.place.imageData = placeImageView.image?.pngData()
+        mapViewController.delegate = self
         present(mapViewController, animated: true)
     }
     
@@ -257,6 +258,10 @@ class NewPlaceTableViewController: UITableViewController, RatingProtocol {
         } else {
             StorageManager.shared.saveObject(newPlace)
         }
+    }
+    
+    func getAddress(_ address: String?) {
+        placeLocationTextField.text = address
     }
     
     @objc private func cancelAction(_ : UIButton) {
