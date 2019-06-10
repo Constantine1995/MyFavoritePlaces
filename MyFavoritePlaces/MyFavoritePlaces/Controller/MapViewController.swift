@@ -8,16 +8,18 @@
 
 import UIKit
 import MapKit
+import CoreLocation
 
 class MapViewController: UIViewController {
 
-    var place = FavoritePlace()
-    let placeMKMapView = MKMapView(frame: .zero)
-    
     class var identifier: String {
         return String(describing: self)
     }
     
+    var place = FavoritePlace()
+    let placeMKMapView = MKMapView(frame: .zero)
+    let locationManager = CLLocationManager()
+ 
     let closeButton: UIButton =  {
         let button = UIButton()
         button.setImage(#imageLiteral(resourceName: "cancel"), for: .normal)
@@ -29,6 +31,7 @@ class MapViewController: UIViewController {
         placeMKMapView.delegate = self
         setupView()
         setupPlacemark()
+        checkLocationAuthorization()
     }
     
     override func loadView() {
@@ -66,7 +69,39 @@ class MapViewController: UIViewController {
             
             self.placeMKMapView.showAnnotations([annotation], animated: true)
             self.placeMKMapView.selectAnnotation(annotation, animated: true)
-            
+        }
+    }
+    
+    private func checkLocationServices() {
+        if CLLocationManager.locationServicesEnabled() {
+            setupLocationManager()
+            checkLocationAuthorization()
+        } else  {
+            // Show alert controller
+        }
+    }
+    
+    private func setupLocationManager() {
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+    }
+    
+    internal func checkLocationAuthorization() {
+        switch CLLocationManager.authorizationStatus() {
+        case .authorizedWhenInUse:
+            placeMKMapView.showsUserLocation = true
+            break
+        case .denied:
+            // Show alert controller
+            break
+        case .notDetermined:
+            locationManager.requestWhenInUseAuthorization()
+        case .restricted:
+            break
+        case .authorizedAlways:
+            break
+        @unknown default:
+            print("New case is available")
         }
     }
     

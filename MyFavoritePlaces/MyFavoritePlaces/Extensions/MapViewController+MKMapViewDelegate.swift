@@ -8,7 +8,7 @@
 
 import MapKit
 
-extension MapViewController: MKMapViewDelegate {
+extension MapViewController: MKMapViewDelegate, CLLocationManagerDelegate {
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         
         guard !(annotation is MKUserLocation) else { return nil}
@@ -29,5 +29,9 @@ extension MapViewController: MKMapViewDelegate {
         }
 
         return annotationView
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        checkLocationAuthorization()
     }
 }
