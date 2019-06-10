@@ -19,10 +19,17 @@ class MapViewController: UIViewController {
     var place = FavoritePlace()
     let placeMKMapView = MKMapView(frame: .zero)
     let locationManager = CLLocationManager()
- 
+    let regionInMeters = 10_000.00
+    
     let closeButton: UIButton =  {
         let button = UIButton()
         button.setImage(#imageLiteral(resourceName: "cancel"), for: .normal)
+        return button
+    }()
+    
+    let userLocationButton: UIButton =  {
+        let button = UIButton()
+        button.setImage(#imageLiteral(resourceName: "Location"), for: .normal)
         return button
     }()
     
@@ -41,8 +48,12 @@ class MapViewController: UIViewController {
     
     func setupView() {
         view.addSubview(closeButton)
+        view.addSubview(userLocationButton)
         closeButton.addTarget(self, action: #selector(closeArction), for: .touchUpInside)
         closeButton.setAnchor(top: view.safeAreaLayoutGuide.topAnchor, left: nil, right: view.rightAnchor, bottom: nil, paddingTop: 40, paddingLeft: 0, paddingRight: -40, paddingBottom: 0, width: 30, height: 30)
+        
+        userLocationButton.addTarget(self, action: #selector(locationAction), for: .touchUpInside)
+        userLocationButton.setAnchor(top: nil, left: nil, right: view.rightAnchor, bottom: view.bottomAnchor, paddingTop: 0, paddingLeft: 0, paddingRight: -40, paddingBottom: -40, width: 30, height: 30)
     }
     
     private func setupPlacemark() {
@@ -77,7 +88,9 @@ class MapViewController: UIViewController {
             setupLocationManager()
             checkLocationAuthorization()
         } else  {
-            // Show alert controller
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                self.showAlert(title: "Location Services are Disabled", message: "To enable it go: Settings -> Privace -> Location Services and turn On")
+            }
         }
     }
     
@@ -92,7 +105,9 @@ class MapViewController: UIViewController {
             placeMKMapView.showsUserLocation = true
             break
         case .denied:
-            // Show alert controller
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                self.showAlert(title: "Your Location is not Available", message: "To give permission Go to: Settings -> MyPlace -> Location")
+            }
             break
         case .notDetermined:
             locationManager.requestWhenInUseAuthorization()
@@ -105,7 +120,21 @@ class MapViewController: UIViewController {
         }
     }
     
+    private func showAlert(title: String, message: String) {
+            let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "OK", style: .default)
+            alert.addAction(okAction)
+            present(alert, animated: true)
+    }
+    
     @objc func closeArction() {
         dismiss(animated: true)
+    }
+    
+    @objc func locationAction() {
+        if let location = locationManager.location?.coordinate {
+            let region = MKCoordinateRegion(center: location, latitudinalMeters: regionInMeters, longitudinalMeters: regionInMeters)
+            placeMKMapView.setRegion(region, animated: true)
+        }
     }
 }
