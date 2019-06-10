@@ -83,13 +83,13 @@ class NewPlaceTableViewController: UITableViewController, RatingProtocol {
         let placeLocationNib = UINib(nibName: NewPlaceLocationTableViewCell.identifier, bundle: nil)
         let placeTypeNib = UINib(nibName: NewPlaceTypeTableViewCell.identifier, bundle: nil)
         let placeRatingNib = UINib(nibName: NewPlaceRatingTableViewCell.identifier, bundle: nil)
-    
+        
         tableView.register(placeImageNib, forCellReuseIdentifier: newPlaceImageCellId)
         tableView.register(placeNameNib, forCellReuseIdentifier: newPlaceNameCellId)
         tableView.register(placeTypeNib, forCellReuseIdentifier: newPlaceTypeCellId)
         tableView.register(placeLocationNib, forCellReuseIdentifier: newPlaceLocationCellId)
         tableView.register(placeRatingNib, forCellReuseIdentifier: newPlaceRatingCellId)
-
+        
         tableView.tableFooterView = UIView()
     }
     
@@ -104,7 +104,7 @@ class NewPlaceTableViewController: UITableViewController, RatingProtocol {
         navigationItem.rightBarButtonItem = saveBarButtonItem
     }
     
-    // MARK: - Table view data source
+    // MARK:  - Table view data source
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return countCell
     }
@@ -138,6 +138,7 @@ class NewPlaceTableViewController: UITableViewController, RatingProtocol {
             setupEditScreen(placeImage: nil, name: nil, location: placeLocationTextField, type: nil)
             cell.placeLocationTextField.delegate = self
             cell.placeTextLabel.text = placeCellHeaderData[index].title
+            cell.UserLocation.addTarget(self, action: #selector(userLocationAction), for: .touchUpInside)
             configureCell(cell)
             return cell
             
@@ -198,7 +199,7 @@ class NewPlaceTableViewController: UITableViewController, RatingProtocol {
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch indexPath.item {
         case 0:
-              return 250
+            return 250
         case 1...3:
             return 75
         default:
@@ -230,6 +231,17 @@ class NewPlaceTableViewController: UITableViewController, RatingProtocol {
         saveBarButtonItem.isEnabled = true
     }
     
+    private func presentMapViewController(_ isTransitionWithMapGetAdress: Bool) {
+        let mapViewController = MapViewController()
+        mapViewController.isTransitionWithMapGetAdress = isTransitionWithMapGetAdress
+        mapViewController.modalTransitionStyle = .coverVertical
+        mapViewController.place.name = placeNameTextField.text!
+        mapViewController.place.location = placeLocationTextField.text
+        mapViewController.place.type = placeTypeTextField.text
+        mapViewController.place.imageData = placeImageView.image?.pngData()
+        present(mapViewController, animated: true)
+    }
+    
     func savePlace() {
         let image = imageIsChanged ? placeImageView.image : #imageLiteral(resourceName: "not-pace")
         let imageData = image?.pngData()
@@ -259,14 +271,11 @@ class NewPlaceTableViewController: UITableViewController, RatingProtocol {
     }
     
     @objc private func mapAction() {
-        let mapViewController = MapViewController()
-        mapViewController.modalTransitionStyle = .coverVertical
-        mapViewController.place.name = placeNameTextField.text!
-        mapViewController.place.location = placeLocationTextField.text
-        mapViewController.place.type = placeTypeTextField.text
-        mapViewController.place.imageData = placeImageView.image?.pngData()
-        
-        present(mapViewController, animated: true)
+        presentMapViewController(false)
+    }
+    
+    @objc func userLocationAction() {
+        presentMapViewController(true)
     }
     
     @objc private func textFieldChanged() {

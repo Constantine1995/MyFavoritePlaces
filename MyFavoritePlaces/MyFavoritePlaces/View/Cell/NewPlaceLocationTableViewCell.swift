@@ -16,6 +16,7 @@ class NewPlaceLocationTableViewCell: UITableViewCell {
     
     @IBOutlet weak var placeTextLabel: UILabel!
     @IBOutlet weak var placeLocationTextField: UITextField!
+    @IBOutlet weak var UserLocation: UIButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()

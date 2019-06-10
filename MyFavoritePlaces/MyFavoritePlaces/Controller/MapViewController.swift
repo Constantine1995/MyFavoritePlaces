@@ -11,7 +11,7 @@ import MapKit
 import CoreLocation
 
 class MapViewController: UIViewController {
-
+    
     class var identifier: String {
         return String(describing: self)
     }
@@ -19,11 +19,20 @@ class MapViewController: UIViewController {
     var place = FavoritePlace()
     let placeMKMapView = MKMapView(frame: .zero)
     let locationManager = CLLocationManager()
+    var isTransitionWithMapGetAdress = false
     let regionInMeters = 10_000.00
     
     let closeButton: UIButton =  {
         let button = UIButton()
         button.setImage(#imageLiteral(resourceName: "cancel"), for: .normal)
+        return button
+    }()
+    
+    let doneButton: UIButton =  {
+        let button = UIButton()
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 30)
+        button.setTitleColor(.black, for: .normal)
+        button.setTitle("Done", for: .normal)
         return button
     }()
     
@@ -33,12 +42,27 @@ class MapViewController: UIViewController {
         return button
     }()
     
+    let mapPinImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = #imageLiteral(resourceName: "Pin")
+        return imageView
+    }()
+    
+    let currentAddressLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont(name: "Helvetica", size: 30)
+        label.text = "Currrent Adress"
+        label.textAlignment = .center
+        return label
+    }()
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         placeMKMapView.delegate = self
         setupView()
-        setupPlacemark()
-        checkLocationAuthorization()
+        setupMapView()
+        checkLocationServices()
     }
     
     override func loadView() {
@@ -49,11 +73,24 @@ class MapViewController: UIViewController {
     func setupView() {
         view.addSubview(closeButton)
         view.addSubview(userLocationButton)
+        view.addSubview(mapPinImageView)
+        view.addSubview(currentAddressLabel)
+        view.addSubview(doneButton)
+        
         closeButton.addTarget(self, action: #selector(closeArction), for: .touchUpInside)
         closeButton.setAnchor(top: view.safeAreaLayoutGuide.topAnchor, left: nil, right: view.rightAnchor, bottom: nil, paddingTop: 40, paddingLeft: 0, paddingRight: -40, paddingBottom: 0, width: 30, height: 30)
         
         userLocationButton.addTarget(self, action: #selector(locationAction), for: .touchUpInside)
         userLocationButton.setAnchor(top: nil, left: nil, right: view.rightAnchor, bottom: view.bottomAnchor, paddingTop: 0, paddingLeft: 0, paddingRight: -40, paddingBottom: -40, width: 30, height: 30)
+        
+        mapPinImageView.setSize(width: 40, height: 40)
+        mapPinImageView.setCenterXAnchor(view)
+        mapPinImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -20).isActive = true
+        
+        currentAddressLabel.setAnchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, right: view.rightAnchor, bottom: nil, paddingTop: 100, paddingLeft: 8, paddingRight: -8, paddingBottom: 0)
+        
+        doneButton.setAnchor(top: nil, left: nil, right: nil, bottom: view.bottomAnchor, paddingTop: 0, paddingLeft: 0, paddingRight: 0, paddingBottom: -80)
+        doneButton.setCenterXAnchor(view)
     }
     
     private func setupPlacemark() {
@@ -83,6 +120,14 @@ class MapViewController: UIViewController {
         }
     }
     
+    private func setupMapView() {
+        if !isTransitionWithMapGetAdress {
+            setupPlacemark()
+            mapPinImageView.isHidden = true
+            currentAddressLabel.isHidden = true
+            doneButton.isHidden = true
+        }
+    }
     private func checkLocationServices() {
         if CLLocationManager.locationServicesEnabled() {
             setupLocationManager()
@@ -103,6 +148,9 @@ class MapViewController: UIViewController {
         switch CLLocationManager.authorizationStatus() {
         case .authorizedWhenInUse:
             placeMKMapView.showsUserLocation = true
+            if isTransitionWithMapGetAdress {
+                showUserLocation()
+            }
             break
         case .denied:
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
@@ -121,10 +169,17 @@ class MapViewController: UIViewController {
     }
     
     private func showAlert(title: String, message: String) {
-            let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-            let okAction = UIAlertAction(title: "OK", style: .default)
-            alert.addAction(okAction)
-            present(alert, animated: true)
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default)
+        alert.addAction(okAction)
+        present(alert, animated: true)
+    }
+    
+    private func showUserLocation() {
+        if let location = locationManager.location?.coordinate {
+            let region = MKCoordinateRegion(center: location, latitudinalMeters: regionInMeters, longitudinalMeters: regionInMeters)
+            placeMKMapView.setRegion(region, animated: true)
+        }
     }
     
     @objc func closeArction() {
@@ -132,9 +187,6 @@ class MapViewController: UIViewController {
     }
     
     @objc func locationAction() {
-        if let location = locationManager.location?.coordinate {
-            let region = MKCoordinateRegion(center: location, latitudinalMeters: regionInMeters, longitudinalMeters: regionInMeters)
-            placeMKMapView.setRegion(region, animated: true)
-        }
+        showUserLocation()
     }
 }
