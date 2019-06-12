@@ -21,6 +21,7 @@ class MapViewController: UIViewController {
     let locationManager = CLLocationManager()
     var isTransitionWithMapGetAdress = false
     let regionInMeters = 10_000.00
+    var placeCoordinate: CLLocationCoordinate2D?
     
     let closeButton: UIButton =  {
         let button = UIButton()
@@ -33,6 +34,12 @@ class MapViewController: UIViewController {
         button.titleLabel?.font = UIFont.systemFont(ofSize: 30)
         button.setTitleColor(.black, for: .normal)
         button.setTitle("Done", for: .normal)
+        return button
+    }()
+    
+    let goButton: UIButton =  {
+        let button = UIButton()
+        button.setImage(#imageLiteral(resourceName: "GetDirection"), for: .normal)
         return button
     }()
     
@@ -74,6 +81,7 @@ class MapViewController: UIViewController {
         view.addSubview(mapPinImageView)
         view.addSubview(currentAddressLabel)
         view.addSubview(doneButton)
+        view.addSubview(goButton)
         
         closeButton.addTarget(self, action: #selector(closeArction), for: .touchUpInside)
         closeButton.setAnchor(top: view.safeAreaLayoutGuide.topAnchor, left: nil, right: view.rightAnchor, bottom: nil, paddingTop: 40, paddingLeft: 0, paddingRight: -40, paddingBottom: 0, width: 30, height: 30)
@@ -90,6 +98,11 @@ class MapViewController: UIViewController {
         doneButton.addTarget(self, action: #selector(doneAction), for: .touchUpInside)
         doneButton.setAnchor(top: nil, left: nil, right: nil, bottom: view.bottomAnchor, paddingTop: 0, paddingLeft: 0, paddingRight: 0, paddingBottom: -80)
         doneButton.setCenterXAnchor(view)
+        
+        goButton.setAnchor(top: nil, left: nil, right: nil, bottom: view.bottomAnchor, paddingTop: 0, paddingLeft: 0, paddingRight: 0, paddingBottom: -40, width: 50, height: 50)
+        goButton.setCenterXAnchor(view)
+        goButton.addTarget(self, action: #selector(goButtonAction), for: .touchUpInside)
+        
     }
     
     private func setupPlacemark() {
@@ -111,29 +124,35 @@ class MapViewController: UIViewController {
             annotation.subtitle = self.place.type
             
             guard let placemarkLocation = placemark?.location else { return }
-            
             annotation.coordinate = placemarkLocation.coordinate
-            
+            self.placeCoordinate = placemarkLocation.coordinate
             self.placeMKMapView.showAnnotations([annotation], animated: true)
             self.placeMKMapView.selectAnnotation(annotation, animated: true)
         }
     }
     
     private func setupMapView() {
+        
+        goButton.isHidden = true
+        
         if !isTransitionWithMapGetAdress {
             setupPlacemark()
             mapPinImageView.isHidden = true
             currentAddressLabel.isHidden = true
             doneButton.isHidden = true
+            goButton.isHidden = false
         }
     }
+    
     private func checkLocationServices() {
         if CLLocationManager.locationServicesEnabled() {
             setupLocationManager()
             checkLocationAuthorization()
         } else  {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                self.showAlert(title: "Location Services are Disabled", message: "To enable it go: Settings -> Privace -> Location Services and turn On")
+                self.showAlert(
+                    title: "Location Services are Disabled",
+                    message: "To enable it go: Settings -> Privace -> Location Services and turn On")
             }
         }
     }
@@ -160,7 +179,9 @@ class MapViewController: UIViewController {
             break
         case .denied:
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                self.showAlert(title: "Your Location is not Available", message: "To give permission Go to: Settings -> MyPlace -> Location")
+                self.showAlert(
+                    title: "Your Location is not Available",
+                    message: "To give permission Go to: Settings -> MyPlace -> Location")
             }
             break
         case .notDetermined:
@@ -172,6 +193,53 @@ class MapViewController: UIViewController {
         @unknown default:
             print("New case is available")
         }
+    }
+    
+    private func getDirections() {
+        guard let location = locationManager.location?.coordinate else {
+            showAlert(title: "Error", message: "Current location is not found")
+            return
+        }
+        
+        guard let request = createDirectionRequest(from: location) else {
+            showAlert(title: "Error", message: "Destination is not found")
+            return
+        }
+        
+        let directions = MKDirections(request: request)
+        directions.calculate { (response, error) in
+            if let error = error {
+                print(error)
+                return
+            }
+            guard let response = response else {
+                self.showAlert(title: "Error", message: "Dirrections is not available")
+                return
+            }
+            for route in response.routes {
+                self.placeMKMapView.addOverlay(route.polyline)
+                self.placeMKMapView.setVisibleMapRect(route.polyline.boundingMapRect, animated: true)
+                
+                let distance = String(format: "%.1f", route.distance / 1000)
+                let timeInterval = route.expectedTravelTime
+                print("Расстояние до места: \(distance) км.")
+                print("Время в пути составит \(timeInterval) сек")
+            }
+        }
+    }
+    
+    private func createDirectionRequest(from coordinate: CLLocationCoordinate2D) -> MKDirections.Request? {
+        guard let destinationCoordinate = placeCoordinate else { return nil }
+        let startingLocation = MKPlacemark(coordinate: coordinate)
+        let destination = MKPlacemark(coordinate: destinationCoordinate)
+        
+        let request = MKDirections.Request()
+        request.source = MKMapItem(placemark: startingLocation)
+        request.destination = MKMapItem(placemark: destination)
+        request.transportType = .automobile
+        request.requestsAlternateRoutes = true
+        
+        return request
     }
     
     internal func getCenterLocation(for mapView: MKMapView) -> CLLocation {
@@ -198,5 +266,9 @@ class MapViewController: UIViewController {
     @objc func doneAction() {
         delegate?.getAddress(currentAddressLabel.text)
         dismiss(animated: true)
+    }
+    
+    @objc func goButtonAction() {
+        getDirections()
     }
 }
