@@ -39,6 +39,14 @@ extension MapViewController: MKMapViewDelegate, CLLocationManagerDelegate {
         let center = getCenterLocation(for: mapView)
         let geocoder  = CLGeocoder()
         
+        if !isTransitionWithMapGetAdress && previousLocation != nil {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                self.showUserLocation()
+            }
+        }
+        
+         geocoder.cancelGeocode()
+        
         geocoder.reverseGeocodeLocation(center) { (placemarks, error) in
             
             if let error = error {
