@@ -32,16 +32,16 @@ extension MapViewController: MKMapViewDelegate, CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        checkLocationAuthorization()
+        MapManager.shared.checkLocationAuthorization(mapView: placeMKMapView, isTransitionWithMapGetAdress: isTransitionWithMapGetAdress)
     }
     
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
-        let center = getCenterLocation(for: mapView)
+        let center = MapManager.shared.getCenterLocation(for: mapView)
         let geocoder  = CLGeocoder()
         
         if !isTransitionWithMapGetAdress && previousLocation != nil {
             DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                self.showUserLocation()
+                MapManager.shared.showUserLocation(mapView: mapView)
             }
         }
         

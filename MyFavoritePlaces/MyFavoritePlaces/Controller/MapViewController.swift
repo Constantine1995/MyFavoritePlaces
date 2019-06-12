@@ -15,17 +15,19 @@ class MapViewController: UIViewController {
     class var identifier: String {
         return String(describing: self)
     }
+    
     var delegate: MapViewControllerDelegate?
     var place = FavoritePlace()
     let placeMKMapView = MKMapView(frame: .zero)
-    let locationManager = CLLocationManager()
     var isTransitionWithMapGetAdress = false
-    let regionInMeters = 1000.00
-    var placeCoordinate: CLLocationCoordinate2D?
-    var directionsArray: [MKDirections] = []
     var previousLocation: CLLocation? {
         didSet {
-            startTrackingUserLocation()
+            MapManager.shared.startTrackingUserLocation(for: placeMKMapView, and: previousLocation) { (currentLocation) in
+                self.previousLocation = currentLocation
+                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                    MapManager.shared.showUserLocation(mapView: self.placeMKMapView)
+                }
+            }
         }
     }
     
@@ -73,7 +75,6 @@ class MapViewController: UIViewController {
         placeMKMapView.delegate = self
         setupView()
         setupMapView()
-        checkLocationServices()
     }
     
     override func loadView() {
@@ -92,7 +93,7 @@ class MapViewController: UIViewController {
         closeButton.addTarget(self, action: #selector(closeArction), for: .touchUpInside)
         closeButton.setAnchor(top: view.safeAreaLayoutGuide.topAnchor, left: nil, right: view.rightAnchor, bottom: nil, paddingTop: 40, paddingLeft: 0, paddingRight: -40, paddingBottom: 0, width: 30, height: 30)
         
-        userLocationButton.addTarget(self, action: #selector(locationAction), for: .touchUpInside)
+        userLocationButton.addTarget(self, action: #selector(centerViewInuserLocationAction), for: .touchUpInside)
         userLocationButton.setAnchor(top: nil, left: nil, right: view.rightAnchor, bottom: view.bottomAnchor, paddingTop: 0, paddingLeft: 0, paddingRight: -40, paddingBottom: -40, width: 30, height: 30)
         
         mapPinImageView.setSize(width: 40, height: 40)
@@ -111,38 +112,17 @@ class MapViewController: UIViewController {
         
     }
     
-    private func setupPlacemark() {
-        guard let location = place.location else { return }
-        
-        let geocoder = CLGeocoder()
-        
-        geocoder.geocodeAddressString(location) { (placemarks, error) in
-            if let error = error {
-                print(error)
-                return
-            }
-            
-            guard let placemarks = placemarks else { return }
-            
-            let placemark = placemarks.first
-            let annotation = MKPointAnnotation()
-            annotation.title = self.place.name
-            annotation.subtitle = self.place.type
-            
-            guard let placemarkLocation = placemark?.location else { return }
-            annotation.coordinate = placemarkLocation.coordinate
-            self.placeCoordinate = placemarkLocation.coordinate
-            self.placeMKMapView.showAnnotations([annotation], animated: true)
-            self.placeMKMapView.selectAnnotation(annotation, animated: true)
-        }
-    }
+  
     
     private func setupMapView() {
-        
         goButton.isHidden = true
+
+        MapManager.shared.checkLocationServices(mapView: placeMKMapView, isTransitionWithMapGetAdress: isTransitionWithMapGetAdress) {
+            MapManager.shared.locationManager.delegate = self
+        }
         
         if !isTransitionWithMapGetAdress {
-            setupPlacemark()
+            MapManager.shared.setupPlacemark(place: place, mapView: placeMKMapView)
             mapPinImageView.isHidden = true
             currentAddressLabel.isHidden = true
             doneButton.isHidden = true
@@ -150,147 +130,12 @@ class MapViewController: UIViewController {
         }
     }
     
-    private func resetMapView(withNew direcrions: MKDirections) {
-        placeMKMapView.removeOverlays(placeMKMapView.overlays)
-        directionsArray.append(direcrions)
-        let _ = directionsArray.map { $0.cancel() }
-        directionsArray.removeAll()
-    }
-    
-    private func checkLocationServices() {
-        if CLLocationManager.locationServicesEnabled() {
-            setupLocationManager()
-            checkLocationAuthorization()
-        } else  {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                self.showAlert(
-                    title: "Location Services are Disabled",
-                    message: "To enable it go: Settings -> Privace -> Location Services and turn On")
-            }
-        }
-    }
-    
-    private func setupLocationManager() {
-        locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-    }
-    
-    internal func showUserLocation() {
-        if let location = locationManager.location?.coordinate {
-            let region = MKCoordinateRegion(center: location, latitudinalMeters: regionInMeters, longitudinalMeters: regionInMeters)
-            placeMKMapView.setRegion(region, animated: true)
-        }
-    }
-    
-    internal func checkLocationAuthorization() {
-        switch CLLocationManager.authorizationStatus() {
-        case .authorizedWhenInUse:
-            placeMKMapView.showsUserLocation = true
-            if isTransitionWithMapGetAdress {
-                showUserLocation()
-            }
-            break
-        case .denied:
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                self.showAlert(
-                    title: "Your Location is not Available",
-                    message: "To give permission Go to: Settings -> MyPlace -> Location")
-            }
-            break
-        case .notDetermined:
-            locationManager.requestWhenInUseAuthorization()
-        case .restricted:
-            break
-        case .authorizedAlways:
-            break
-        @unknown default:
-            print("New case is available")
-        }
-    }
-    
-    private func getDirections() {
-        guard let location = locationManager.location?.coordinate else {
-            showAlert(title: "Error", message: "Current location is not found")
-            return
-        }
-        
-        locationManager.startUpdatingLocation()
-        previousLocation = CLLocation(latitude: location.latitude, longitude: location.longitude)
-        
-        guard let request = createDirectionsRequest(from: location) else {
-            showAlert(title: "Error", message: "Destination is not found")
-            return
-        }
-        
-        let directions = MKDirections(request: request)
-        
-        resetMapView(withNew: directions)
-         
-        directions.calculate { (response, error) in
-            if let error = error {
-                print(error)
-                return
-            }
-            guard let response = response else {
-                self.showAlert(title: "Error", message: "Dirrections is not available")
-                return
-            }
-            for route in response.routes {
-                self.placeMKMapView.addOverlay(route.polyline)
-                self.placeMKMapView.setVisibleMapRect(route.polyline.boundingMapRect, animated: true)
-                
-                let distance = String(format: "%.1f", route.distance / 1000)
-                let timeInterval = route.expectedTravelTime
-                print("Расстояние до места: \(distance) км.")
-                print("Время в пути составит \(timeInterval) сек")
-            }
-        }
-    }
-    
-    private func createDirectionsRequest(from coordinate: CLLocationCoordinate2D) -> MKDirections.Request? {
-        guard let destinationCoordinate = placeCoordinate else { return nil }
-        let startingLocation = MKPlacemark(coordinate: coordinate)
-        let destination = MKPlacemark(coordinate: destinationCoordinate)
-        
-        let request = MKDirections.Request()
-        request.source = MKMapItem(placemark: startingLocation)
-        request.destination = MKMapItem(placemark: destination)
-        request.transportType = .automobile
-        request.requestsAlternateRoutes = true
-        
-        return request
-    }
-    
-    private func startTrackingUserLocation() {
-        guard let previousLocation = previousLocation else { return }
-        let center = getCenterLocation(for: placeMKMapView)
-        guard center.distance(from: previousLocation) > 50 else { return }
-        self.previousLocation = center
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-            self.showUserLocation()
-        }
-    }
-    
-    internal func getCenterLocation(for mapView: MKMapView) -> CLLocation {
-        let latitude = mapView.centerCoordinate.latitude
-        let longitude =  mapView.centerCoordinate.longitude
-        return CLLocation(latitude: latitude, longitude: longitude)
-    }
-    
-    private func showAlert(title: String, message: String) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "OK", style: .default)
-        alert.addAction(okAction)
-        present(alert, animated: true)
-    }
-    
     @objc func closeArction() {
         dismiss(animated: true)
     }
     
-    @objc func locationAction() {
-        showUserLocation()
+    @objc func centerViewInuserLocationAction() {
+        MapManager.shared.showUserLocation(mapView: placeMKMapView)
     }
     
     @objc func doneAction() {
@@ -299,6 +144,8 @@ class MapViewController: UIViewController {
     }
     
     @objc func goButtonAction() {
-        getDirections()
+        MapManager.shared.getDirections(mapView: placeMKMapView) { (location) in
+            self.previousLocation = location
+        }
     }
 }

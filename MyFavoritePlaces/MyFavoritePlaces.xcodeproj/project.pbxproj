@@ -10,6 +10,7 @@
 		041C1C4E22AD2020007C7DA6 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041C1C4D22AD2020007C7DA6 /* MapViewController.swift */; };
 		041C1C5022AD3A9A007C7DA6 /* MapViewController+MKMapViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041C1C4F22AD3A9A007C7DA6 /* MapViewController+MKMapViewDelegate.swift */; };
 		041C1C5222AE86A0007C7DA6 /* MapViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041C1C5122AE86A0007C7DA6 /* MapViewControllerDelegate.swift */; };
+		041C1C5422B0D2B7007C7DA6 /* MapManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041C1C5322B0D2B7007C7DA6 /* MapManager.swift */; };
 		0422B58222A7C24100065C0B /* NewPlaceLocationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0422B58022A7C24100065C0B /* NewPlaceLocationTableViewCell.swift */; };
 		0422B58622A7C2BD00065C0B /* NewPlaceTypeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0422B58522A7C2BD00065C0B /* NewPlaceTypeTableViewCell.swift */; };
 		0422B58822A7C67100065C0B /* NewPlaceLocationTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0422B58422A7C27600065C0B /* NewPlaceLocationTableViewCell.xib */; };
@@ -20,7 +21,6 @@
 		045028E222A1330B00B08F3C /* NewPlaceImageTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 045028E022A1330B00B08F3C /* NewPlaceImageTableViewCell.xib */; };
 		0462C871229E9E6000828498 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462C870229E9E6000828498 /* AppDelegate.swift */; };
 		0462C878229E9E6100828498 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0462C877229E9E6100828498 /* Assets.xcassets */; };
-		0462C87B229E9E6100828498 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0462C879229E9E6100828498 /* LaunchScreen.storyboard */; };
 		0462C883229EA12900828498 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462C882229EA12900828498 /* MainViewController.swift */; };
 		0462C887229EB71000828498 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462C886229EB71000828498 /* UIView+Extension.swift */; };
 		0462C88A229EB92C00828498 /* FavoritePlace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462C889229EB92C00828498 /* FavoritePlace.swift */; };
@@ -44,6 +44,7 @@
 		041C1C4D22AD2020007C7DA6 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		041C1C4F22AD3A9A007C7DA6 /* MapViewController+MKMapViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MapViewController+MKMapViewDelegate.swift"; sourceTree = "<group>"; };
 		041C1C5122AE86A0007C7DA6 /* MapViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewControllerDelegate.swift; sourceTree = "<group>"; };
+		041C1C5322B0D2B7007C7DA6 /* MapManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapManager.swift; sourceTree = "<group>"; };
 		0422B58022A7C24100065C0B /* NewPlaceLocationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPlaceLocationTableViewCell.swift; sourceTree = "<group>"; };
 		0422B58422A7C27600065C0B /* NewPlaceLocationTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewPlaceLocationTableViewCell.xib; sourceTree = "<group>"; };
 		0422B58522A7C2BD00065C0B /* NewPlaceTypeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPlaceTypeTableViewCell.swift; sourceTree = "<group>"; };
@@ -88,6 +89,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		041C1C5522B0E0E5007C7DA6 /* IBuilder */ = {
+			isa = PBXGroup;
+			children = (
+				0462C879229E9E6100828498 /* LaunchScreen.storyboard */,
+			);
+			path = IBuilder;
+			sourceTree = "<group>";
+		};
 		0422B57F22A7C1D100065C0B /* ImagePlaces */ = {
 			isa = PBXGroup;
 			children = (
@@ -146,12 +155,12 @@
 			children = (
 				04BE03EC22AC0E5700BA77F7 /* Protocol */,
 				04F882BC22A50C8900D3BCCD /* Manager */,
-				0462C88B229EBB0700828498 /* View */,
 				0462C888229EB7E300828498 /* Model */,
-				0462C885229EB6C000828498 /* Extensions */,
+				0462C88B229EBB0700828498 /* View */,
 				045028D822A00E1B00B08F3C /* Controller */,
+				0462C885229EB6C000828498 /* Extensions */,
 				0462C884229EA1AD00828498 /* SupportingFiles */,
-				0462C879229E9E6100828498 /* LaunchScreen.storyboard */,
+				041C1C5522B0E0E5007C7DA6 /* IBuilder */,
 			);
 			path = MyFavoritePlaces;
 			sourceTree = "<group>";
@@ -211,6 +220,7 @@
 			isa = PBXGroup;
 			children = (
 				04F882BD22A50C9800D3BCCD /* StorageManager.swift */,
+				041C1C5322B0D2B7007C7DA6 /* MapManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -297,7 +307,6 @@
 				0422B58822A7C67100065C0B /* NewPlaceLocationTableViewCell.xib in Resources */,
 				04E8011622A134C90005129F /* NewPlaceNameTableViewCell.xib in Resources */,
 				045028E222A1330B00B08F3C /* NewPlaceImageTableViewCell.xib in Resources */,
-				0462C87B229E9E6100828498 /* LaunchScreen.storyboard in Resources */,
 				0462C878229E9E6100828498 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -381,6 +390,7 @@
 				0422B58622A7C2BD00065C0B /* NewPlaceTypeTableViewCell.swift in Sources */,
 				04BE03EA22AA979300BA77F7 /* RatingProtocol.swift in Sources */,
 				041C1C5022AD3A9A007C7DA6 /* MapViewController+MKMapViewDelegate.swift in Sources */,
+				041C1C5422B0D2B7007C7DA6 /* MapManager.swift in Sources */,
 				04F882BE22A50C9800D3BCCD /* StorageManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
